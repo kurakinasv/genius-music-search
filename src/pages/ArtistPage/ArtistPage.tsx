@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom';
+
 const ArtistPage = () => {
   return (
     <div>
-      <h1>artist</h1>
+      <h2>Artist Page</h2>
+      <Link to="/">Back to search</Link>
     </div>
   );
 };

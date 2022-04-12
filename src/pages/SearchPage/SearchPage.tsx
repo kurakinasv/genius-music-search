@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
+import ArtistCard from '@components/ArtistCard';
 import Button from '@components/Button';
 import Input from '@components/Input';
+import SongCard from '@components/SongCard';
 
 const options = {
   method: 'GET',
@@ -29,9 +31,11 @@ const SearchPage = () => {
   const [value, setValue] = useState('');
 
   const clickHandler = () => {
+    if (!value) return;
     reqSearchData(value)
       .then((res) => setResult(res))
       .catch((e) => console.log('error:', e.message));
+    setValue('');
   };
 
   const inputHandler = (event: React.FormEvent<HTMLInputElement>) => {
@@ -44,7 +48,8 @@ const SearchPage = () => {
 
   return (
     <div>
-      Search page
+      <h2>Search page</h2>
+
       <div>
         <input type="text" value={value} onChange={inputHandler} />
         <button onClick={clickHandler}>Search</button>
@@ -57,6 +62,9 @@ const SearchPage = () => {
           <div>No results</div>
         )}
       </div>
+
+      <SongCard />
+      <ArtistCard />
     </div>
   );
 };
