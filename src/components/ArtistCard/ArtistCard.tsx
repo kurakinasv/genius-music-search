@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom';
 
+import s from './ArtistCard.module.scss';
+
 const ArtistCard = () => {
   let id = (Math.random() * 10000).toFixed();
 
   return (
-    <div>
-      <h5>Artist Card</h5>
-      <Link to={`/song/${id}`}>full song {id}</Link> <br />
-      <Link to={`/artist/${id}`}>go to artist {id}</Link>
-    </div>
+    <>
+      <div className={s.item}>
+        <div className={s.content}>
+          <div className={s.title}>Artist Name</div>
+        </div>
+
+        <div className={s.link}>
+          <Link to={`/artist/${id}`}>Перейти к исполнителю</Link>
+        </div>
+      </div>
+    </>
   );
 };
 

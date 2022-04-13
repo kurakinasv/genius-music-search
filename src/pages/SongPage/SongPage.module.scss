@@ -1,0 +1,87 @@
+.container{
+    max-width: 1360px;
+    height: 100vh;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.arrow{
+    position: absolute;
+    width: 5vw;
+    height: 100vh;
+    left: 0;
+    cursor: pointer;
+    transition: 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.arrow:hover{
+    background-color: #eaeaea;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.arrow::before{
+    content: '';
+    width: 40px;
+    height: 7px;
+    background-color: #c4c4c4;
+    position: absolute;
+    top: 48.6%;
+    left: 1vw;
+    transform: rotate(-45deg);
+    border-radius: 10px;
+}
+
+.arrow::after{
+    content: '';
+    width: 40px;
+    height: 7px;
+    background-color: #c4c4c4;
+    position: absolute;
+    top: 51.4%;
+    left: 1vw;
+    transform: rotate(40deg);
+    border-radius: 10px;
+}
+
+.wrapper{
+    display: flex;
+    column-gap: 100px;
+}
+
+.image img{
+    max-width: 670px;
+}
+
+.title{
+    font-size: 70px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.artist{
+    font-size: 40px;
+    color: #383838;
+    margin-bottom: 10px;
+}
+
+.stats{
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.stats__icon{
+    max-height: 20px;
+    margin-right: 10px;
+}
+
+.stats__text{
+    font-size: 20px;
+    color: #383838;
+}
+
+.description{
+    font-size: 26px;
+}
