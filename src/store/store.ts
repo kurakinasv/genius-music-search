@@ -1,14 +1,17 @@
-import { SongType } from '../types/types';
+import { SongType } from '@type/types';
 
 interface IStore {
   options: object;
   reqSearchData: (value: string) => Promise<[]>;
   state: SongType[];
-  getState: () => SongType[];
-  setSongsState: (props: SongType[]) => void;
+  currentId: number | null;
+  getSongsState: () => SongType[];
+  getCurrentId: () => number | null;
+  setSongsState: (state: SongType[]) => void;
+  setCurrentId: (current: number) => void;
 }
 
-export let store: IStore = {
+export const store: IStore = {
   options: {
     method: 'GET',
     headers: {
@@ -32,11 +35,21 @@ export let store: IStore = {
 
   state: [],
 
-  getState: (): any => {
+  currentId: null,
+
+  getSongsState: () => {
     return store.state;
   },
 
-  setSongsState: (props: SongType[]) => {
-    store.state = props;
+  getCurrentId: () => {
+    return store.currentId;
+  },
+
+  setSongsState: (state) => {
+    store.state = state;
+  },
+
+  setCurrentId: (current) => {
+    store.currentId = current;
   },
 };

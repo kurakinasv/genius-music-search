@@ -2,7 +2,7 @@ export type SongType = {
   id: number;
   title: string;
   artist: string;
-  artist_names: string;
+  artist_names?: string;
 
   annotation_count?: number;
   header_image_url?: string;
@@ -21,5 +21,5 @@ export type ArtistType = {
 
 export type SongsContextType = {
   state: SongType[];
-  setState: (state: SongType[]) => void;
+  current: number | null;
 };

@@ -1,16 +1,19 @@
+import { useContext } from 'react';
+
+import { SongsContext } from '@app/App';
+import { SongsContextType, SongType } from '@type/types';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { SongType } from '../../types/types';
 import s from './SongCard.module.scss';
 
-const SongCard: React.FC<SongType> = ({ id, title, artist }: SongType) => {
-  let navigate = useNavigate();
+const SongCard: React.FC<SongType> = ({ id, title, artist }) => {
+  const navigate = useNavigate();
+
+  const songContext = useContext<SongsContextType>(SongsContext);
 
   const clickHandler = () => {
-    navigate(`/song/${id}`, {
-      replace: false,
-      state: { id, title, artist },
-    });
+    navigate(`/song/${id}`);
+    songContext.current = id;
   };
 
   return (

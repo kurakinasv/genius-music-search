@@ -1,26 +1,28 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 
 import ArtistPage from '@pages/ArtistPage';
 import SearchPage from '@pages/SearchPage';
 import SongPage from '@pages/SongPage';
 import { store } from '@store/store';
+import { SongsContextType } from '@type/types';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import { SongsContextType, SongType } from './types/types';
-
-export const SongsContext = createContext<SongsContextType | null>({
-  state: store.getState(),
-  setState: (state: SongType[]) => store.setSongsState(state),
+export const SongsContext = createContext<SongsContextType>({
+  state: store.getSongsState(),
+  current: store.getCurrentId(),
 });
 
 const SongsContextProvider = SongsContext.Provider;
 
-function App() {
-  const [state, setState] = useState(store.getState());
+const App = () => {
+  const value = {
+    state: store.getSongsState(),
+    current: store.getCurrentId(),
+  };
 
   return (
     <BrowserRouter>
-      <SongsContextProvider value={{ state, setState }}>
+      <SongsContextProvider value={value}>
         <Routes>
           <Route index element={<SearchPage />} />
           <Route path="song/:id" element={<SongPage />} />
@@ -30,6 +32,6 @@ function App() {
       </SongsContextProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

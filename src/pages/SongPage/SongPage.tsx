@@ -1,11 +1,17 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 
-import { SongType } from '../../types/types';
+import { SongsContext } from '@app/App';
+import { SongsContextType } from '@type/types';
+import { Link } from 'react-router-dom';
+
 import s from './SongPage.module.scss';
 
-const SongPage = () => {
-  const location = useLocation();
-  const state = location.state as SongType; // Type Casting
+const SongPage: React.FC = () => {
+  const songContext = useContext<SongsContextType>(SongsContext);
+
+  const songData = songContext.state.filter(
+    (song) => song.id === songContext.current
+  )[0];
 
   return (
     <>
@@ -17,13 +23,13 @@ const SongPage = () => {
           </div>
 
           <div className={s.info}>
-            <div className={s.title}>{state.title}</div>
-            <div className={s.artist}>{state.artist}</div>
+            <div className={s.title}>{songData.title}</div>
+            <div className={s.artist}>{songData.artist}</div>
             <div className={s.stats}>
               <div className={s.stats__icon}>
                 <img src="http://placekitten.com/20" alt="" />
               </div>
-              <div className={s.stats__text}>stats {state.id}</div>
+              <div className={s.stats__text}>stats {songData.id}</div>
             </div>
             <div className={s.description}>
               Что же есть зло? Ужасное проявление самых отвратительных качеств

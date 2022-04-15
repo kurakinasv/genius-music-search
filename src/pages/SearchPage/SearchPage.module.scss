@@ -3,6 +3,38 @@
     margin: 0 auto;
 }
 
+.search input{
+    display: inline-block;
+    padding: 16px 12px;
+    border: 1px solid rgb(59, 164, 206);
+    border-radius: 6px;
+    min-width: 150px;
+    width: 30vw;
+    margin-right: 10px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.search input:focus{
+    outline: 1px solid rgb(19, 129, 173);
+}
+
+.search button{
+    padding: 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgb(59, 164, 206);
+    color: aliceblue;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.search button:hover{
+    opacity: 0.8;
+}
+
 .cards{
     display: flex;
     flex-wrap: wrap;
