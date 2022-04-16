@@ -1,14 +1,22 @@
-import { SongType } from '@type/types';
+import { ArtistPageType, SongPageType, SongType } from '@type/types';
 
 interface IStore {
   options: object;
-  reqSearchData: (value: string) => Promise<[]>;
+  BASE_URL: string;
+  reqSearchData: (value: string, type?: RequestTypes) => Promise<[]>;
   state: SongType[];
   currentId: number | null;
+  currentData: Partial<SongPageType & ArtistPageType> | null;
   getSongsState: () => SongType[];
   getCurrentId: () => number | null;
   setSongsState: (state: SongType[]) => void;
   setCurrentId: (current: number) => void;
+}
+
+export enum RequestTypes {
+  SEARCH = 'search?q=',
+  SONG = 'songs/',
+  ARTIST = 'artists/',
 }
 
 export const store: IStore = {
@@ -20,13 +28,25 @@ export const store: IStore = {
     },
   },
 
-  reqSearchData: async (value: string) => {
-    const url = `https://genius.p.rapidapi.com/search?q=${value}`;
+  BASE_URL: 'https://genius.p.rapidapi.com/',
+
+  reqSearchData: async (value: string, type) => {
+    const url = store.BASE_URL + type + value;
 
     try {
       let response = await fetch(url, store.options);
       let data = await response.json();
-      return data.response.hits;
+
+      switch (type) {
+        case RequestTypes.SEARCH:
+          return data.response.hits;
+        case RequestTypes.SONG: {
+          console.log('data', data.response.song);
+          return data.response.song;
+        }
+        case RequestTypes.ARTIST:
+          return data.response.artist;
+      }
     } catch (error: any) {
       console.error('Error:', error.message);
       return [];
@@ -36,6 +56,8 @@ export const store: IStore = {
   state: [],
 
   currentId: null,
+
+  currentData: null,
 
   getSongsState: () => {
     return store.state;

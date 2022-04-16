@@ -9,7 +9,7 @@ import {
 import { SongsContext } from '@app/App';
 import ArtistCard from '@components/ArtistCard';
 import SongCard from '@components/SongCard';
-import { store } from '@store/store';
+import { RequestTypes, store } from '@store/store';
 import { SongsContextType } from '@type/types';
 
 import s from './SearchPage.module.scss';
@@ -24,15 +24,27 @@ const SearchPage: React.FC = () => {
     if (!value) return;
 
     try {
-      const res: [] = await store.reqSearchData(value);
+      const res: [] = await store.reqSearchData(value, RequestTypes.SEARCH);
 
       const data = res.map(({ result }) => {
-        const { id, title, artist_names: artist } = result;
+        const {
+          id,
+          title,
+          artist_names: artist,
+          annotation_count: annotationCount,
+          song_art_image_url: songImg,
+          stats,
+          primary_artist: artistInfo,
+        } = result;
 
         return {
           id,
           title,
           artist,
+          annotationCount,
+          songImg,
+          stats,
+          artistInfo,
         };
       });
 
@@ -76,6 +88,7 @@ const SearchPage: React.FC = () => {
       </div>
 
       <div className={s.wrapper}>
+        {state.length > 0 && <ArtistCard {...state[0]} />}
         {state.length > 0 && <div className={s.cards}>{songsArray}</div>}
       </div>
     </div>

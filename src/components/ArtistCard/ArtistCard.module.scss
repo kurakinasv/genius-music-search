@@ -28,19 +28,11 @@
 .link{
     border-radius: 4px;
     transition: 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    padding: 10px 0;
     cursor: pointer;
 }
 
 .link:hover{
     transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     background-color:rgb(239, 217, 189);
-}
-
-.link a{
-    display: block;
-    padding: 10px 0;
-}
-
-.link a:hover{
-   text-decoration: none;
 }
