@@ -50,7 +50,7 @@ export type ArtistPageType = {
   id: number;
   name: string;
   image_url?: string;
-  description?: string;
+  description: string;
   facebook_name?: string;
   followers_count?: number;
   instagram_name?: string;

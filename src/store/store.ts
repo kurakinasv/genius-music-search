@@ -31,7 +31,12 @@ export const store: IStore = {
   BASE_URL: 'https://genius.p.rapidapi.com/',
 
   reqSearchData: async (value: string, type) => {
-    const url = store.BASE_URL + type + value;
+    let url = store.BASE_URL + type + value;
+    const plain = '?text_format=html';
+
+    if (type === RequestTypes.SONG || type === RequestTypes.ARTIST) {
+      url += plain;
+    }
 
     try {
       let response = await fetch(url, store.options);
@@ -40,6 +45,7 @@ export const store: IStore = {
       switch (type) {
         case RequestTypes.SEARCH:
           return data.response.hits;
+
         case RequestTypes.SONG: {
           console.log('data', data.response.song);
           return data.response.song;

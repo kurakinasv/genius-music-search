@@ -1,8 +1,12 @@
 import { useContext, useState } from 'react';
 
 import { SongsContext } from '@app/App';
-import { ArtistPageType } from '@app/types/types';
+import FollowersIcon from '@app/icons/FollowersIcon';
+import FacebookIcon from '@icons/FacebookIcon';
+import InstIcon from '@icons/InstIcon';
 import { RequestTypes, store } from '@store/store';
+import { ArtistPageType } from '@type/types';
+import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 
 import s from './ArtistPage.module.scss';
@@ -31,6 +35,7 @@ const ArtistPage: React.FC = () => {
         facebook_name,
         instagram_name,
         followers_count,
+        description,
       } = res;
 
       store.currentData = {
@@ -40,14 +45,20 @@ const ArtistPage: React.FC = () => {
         facebook_name,
         instagram_name,
         followers_count,
+        description,
       };
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error: any) {
       console.log('error in songPage:', error.message);
     }
   };
 
-  getArtistData();
+  let htmlData: any;
+  getArtistData()
+    .then(() => (htmlData = parse(data?.description.html)))
+    // .then(() => (data!.description = htmlData[0].props.children))
+    .then(() => console.log(htmlData))
+    .then(() => setIsLoading(false));
 
   return (
     <>
@@ -62,30 +73,24 @@ const ArtistPage: React.FC = () => {
             <div className={s.info}>
               <div className={s.title}>{data?.name}</div>
               <div className={s.stats}>
-                <div className={s.stats__icon}>
-                  <img src="http://placekitten.com/20" alt="" />
-                </div>
                 <div className={s.stats__text}>
                   {data?.facebook_name && (
-                    <p>facebook: {data?.facebook_name}</p>
+                    <FacebookIcon name={data?.facebook_name} />
                   )}
+
                   {data?.instagram_name && (
-                    <p>instagram: {data?.instagram_name}</p>
+                    <InstIcon name={data?.instagram_name} />
                   )}
+
                   {data?.followers_count && (
-                    <p>followers: {data?.followers_count}</p>
+                    <FollowersIcon number={data?.followers_count} />
                   )}
                 </div>
               </div>
-              {/* <div className={s.description}>
-                Электрофорез — дуэт, основанный в 2012 году и ставший одним из
-                самых примечательных явлений на петербургской (и не только)
-                сцене. Музыка группы — сочетание жёсткого синти-попа,
-                танцевальной электроники и интригующих текстов. Состав группы:
-                Иван Курочкин и Виталий Талызин. Тексты и музыку пишут вместе,
-                базируются в Санкт-Петербурге, где и родились. Участники
-                «Электрофореза» 10 лет учились вместе в одном классе.
-              </div> */}
+              <div className={s.description}>
+                {parse(data?.description.html)}
+              </div>
+              <div className={s.description__gradient}></div>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
 import { SongsContext } from '@app/App';
+import PlayIcon from '@app/icons/PlayIcon';
 import { RequestTypes, store } from '@store/store';
 import { SongsContextType } from '@type/types';
 import { Link } from 'react-router-dom';
@@ -49,17 +50,16 @@ const SongPage: React.FC = () => {
     }
   };
 
-  const descriptionNormalizer = () => {
-    console.log(data?.description?.dom.children[0].children[0]);
-    let dom = data?.description?.dom;
-    for (let child in dom.children) {
-      console.log(child);
-    }
-  };
+  // const descriptionNormalizer = () => {
+  //   console.log(data?.description?.dom.children[0].children[0]);
+  //   let dom = data?.description?.dom;
+  //   for (let child in dom.children) {
+  //     console.log(child);
+  //   }
+  // };
 
-  getSongData()
-    .then(() => console.log(store.currentData))
-    .then(() => descriptionNormalizer());
+  getSongData().then(() => console.log(store.currentData));
+  // .then(() => descriptionNormalizer());
 
   return (
     <>
@@ -96,6 +96,11 @@ const SongPage: React.FC = () => {
                   width="100px"
                 />
               </div>
+              <div className={s.listen}>
+                <PlayIcon />
+                <span className={s.listen_demo}>Listen demo</span>
+              </div>
+
               {/* <div className={s.description}>
                 Что же есть зло? Ужасное проявление самых отвратительных качеств
                 человека. Именно о таком зле и говорится в песне. Перед нами
