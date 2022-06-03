@@ -11,6 +11,9 @@
             "@config/*": [
                 "src/config/*"
             ],
+            "@icons/*": [
+                "src/icons/*"
+            ],
             "@styles/*": [
                 "src/styles/*"
             ],
