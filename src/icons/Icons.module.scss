@@ -1,18 +1,26 @@
-.media svg{
-    vertical-align: middle;
+@import '@styles/mixins.module.scss';
+
+.media svg {
     margin-right: 10px;
+    vertical-align: middle;
 }
 
-.media span{
-    vertical-align: middle;
-    font-weight: 400;
-    font-size: 20px;
+.media span {
+    @include font(20px, 400, $darkGrey, $franklin);
     line-height: 41px;
 
-    color: #383838;
+    vertical-align: middle;
 }
 
-.playicon{
-    vertical-align: middle;
+.playicon {
     margin-right: 16px;
+    margin-left: 13px;
+    vertical-align: middle;
+}
+
+.icon {
+    @include square(30px);
+
+    margin-right: 28px;
+    vertical-align: middle;
 }

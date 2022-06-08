@@ -2,12 +2,41 @@ import { FunctionComponent } from 'react';
 
 import s from './Icons.module.scss';
 
-const ALbumIcon: FunctionComponent = () => {
+const AlbumIcon: FunctionComponent<{ color?: string }> = ({
+  color = '#95ADCF',
+}) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-      <path d="M0 0h20v20H0V0zm10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-5a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={s.icon}
+    >
+      <path
+        d="M2.5 21.75V3.25C2.5 2.83579 2.83579 2.5 3.25 2.5H21.75C22.1642 2.5 22.5 2.83579 22.5 3.25V21.75C22.5 22.1642 22.1642 22.5 21.75 22.5H3.25C2.83579 22.5 2.5 22.1642 2.5 21.75Z"
+        stroke={color}
+        stroke-width="1.7"
+      />
+      <path
+        d="M10 27.5H26.75C27.1642 27.5 27.5 27.1642 27.5 26.75V10"
+        stroke={color}
+        stroke-width="1.7"
+        stroke-linecap="round"
+      />
+      <path
+        d="M13.75 15.625C13.75 16.6605 12.9105 17.5 11.875 17.5C10.8395 17.5 10 16.6605 10 15.625C10 14.5895 10.8395 13.75 11.875 13.75C12.9105 13.75 13.75 14.5895 13.75 15.625Z"
+        fill={color}
+      />
+      <path
+        d="M13.75 15.625V8.25C13.75 7.83579 14.0858 7.5 14.5 7.5H16.25M13.75 15.625C13.75 16.6605 12.9105 17.5 11.875 17.5C10.8395 17.5 10 16.6605 10 15.625C10 14.5895 10.8395 13.75 11.875 13.75C12.9105 13.75 13.75 14.5895 13.75 15.625Z"
+        stroke={color}
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
     </svg>
   );
 };
 
-export default ALbumIcon;
+export default AlbumIcon;
