@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { SongsContext } from '@app/App';
-import FollowersIcon from '@app/icons/FollowersIcon';
+import NamedIcon from '@components/NamedIcon';
 import FacebookIcon from '@icons/FacebookIcon';
+import FollowersIcon from '@icons/FollowersIcon';
 import InstIcon from '@icons/InstIcon';
 import { RequestTypes, store } from '@store/store';
-import { ArtistPageType } from '@type/types';
 import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const ArtistPage: React.FC = () => {
   const current = `${artistContext.current}`;
   const data = store.currentData;
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getArtistData = async () => {
     console.log('getArtistData');
@@ -47,24 +47,30 @@ const ArtistPage: React.FC = () => {
         followers_count,
         description,
       };
-      // setIsLoading(false);
+
+      setIsLoading(false);
     } catch (error: any) {
-      console.log('error in songPage:', error.message);
+      console.log('error in ArtistPage:', error.message);
     }
   };
 
-  let htmlData: any;
-  getArtistData()
-    .then(() => (htmlData = parse(data?.description.html)))
-    // .then(() => (data!.description = htmlData[0].props.children))
-    .then(() => console.log(htmlData))
-    .then(() => setIsLoading(false));
+  useEffect(() => {
+    getArtistData();
+  }, []);
+
+  const getArtistDescription = () => {
+    // 8 - check for <p>?</p>
+    return data?.description.html.length > 8
+      ? parse(data?.description.html)
+      : '';
+  };
 
   return (
     <>
       {!isLoading && (
         <div className={s.container}>
           <Link to="/" className={s.arrow}></Link>
+
           <div className={s.wrapper}>
             <div className={s.image}>
               <img src={data?.image_url} alt={data?.name} />
@@ -73,28 +79,37 @@ const ArtistPage: React.FC = () => {
             <div className={s.info}>
               <div className={s.title}>{data?.name}</div>
               <div className={s.stats}>
-                <div className={s.stats__text}>
-                  {data?.facebook_name && (
-                    <FacebookIcon name={data?.facebook_name} />
-                  )}
+                {data?.facebook_name && (
+                  <NamedIcon
+                    children={<FacebookIcon />}
+                    name={data?.facebook_name}
+                    title="Facebook"
+                  />
+                )}
 
-                  {data?.instagram_name && (
-                    <InstIcon name={data?.instagram_name} />
-                  )}
+                {data?.instagram_name && (
+                  <NamedIcon
+                    children={<InstIcon />}
+                    name={data?.instagram_name}
+                    title="Instagram"
+                  />
+                )}
 
-                  {data?.followers_count && (
-                    <FollowersIcon number={data?.followers_count} />
-                  )}
-                </div>
+                {data?.followers_count && (
+                  <NamedIcon
+                    children={<FollowersIcon />}
+                    name={String(data?.followers_count)}
+                    title="Followers on Genius"
+                  />
+                )}
               </div>
-              <div className={s.description}>
-                {parse(data?.description.html)}
-              </div>
-              <div className={s.description__gradient}></div>
+
+              <div className={s.description}>{getArtistDescription()}</div>
             </div>
           </div>
         </div>
       )}
+
       {isLoading && <p>Loading...</p>}
     </>
   );
