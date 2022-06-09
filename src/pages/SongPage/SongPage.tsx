@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { SongsContext } from '@app/App';
 import NamedIcon from '@components/NamedIcon';
+import ReturnButton from '@components/ReturnButton';
 import AlbumIcon from '@icons/AlbumIcon';
 import AnnotationsIcon from '@icons/AnnotationsIcon';
 import PlayIcon from '@icons/PlayIcon';
@@ -10,7 +11,6 @@ import ViewsIcon from '@icons/ViewsIcon';
 import { RequestTypes, store } from '@store/store';
 import { SongsContextType } from '@type/types';
 import parse from 'html-react-parser';
-import { Link } from 'react-router-dom';
 
 import s from './SongPage.module.scss';
 
@@ -70,7 +70,8 @@ const SongPage: React.FC = () => {
     <>
       {!isLoading && (
         <div className={s.container}>
-          <Link to="/" className={s.arrow}></Link>
+          <ReturnButton />
+
           <div className={s.wrapper}>
             <div className={s.image}>
               <div className={s.image__container}>

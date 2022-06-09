@@ -1,0 +1,54 @@
+@import '@styles/colors.module.scss';
+
+$backWidth: 5vw;
+
+$lineWidth: 2.5vw;
+$lineHeight: 0.7vh;
+
+$lineTopIndent: calc(#{$lineWidth} / 2 * 1.414214 / 2);
+$lineRightIndent: calc((#{$backWidth} - #{$lineWidth}) / 2);
+
+.arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: $backWidth;
+    height: 100vh;
+
+    cursor: pointer;
+    transition: 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.arrow:hover {
+    background-color: $blue;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.arrow::before {
+    content: '';
+    position: absolute;
+    top: calc(50vh - #{$lineTopIndent} + #{$lineHeight} / 3.2);
+    left: $lineRightIndent;
+
+    width: $lineWidth;
+    height: $lineHeight;
+
+    background-color: $darkerBlue;
+    border-radius: 10px;
+    transform: rotate(-45deg);
+}
+
+.arrow::after {
+    content: '';
+    position: absolute;
+    top: calc(50vh + #{$lineTopIndent} - #{$lineHeight} / 3.2);
+    left: $lineRightIndent;
+
+    width: $lineWidth;
+    height: $lineHeight;
+
+    background-color: $darkerBlue;
+    border-radius: 10px;
+    transform: rotate(45deg);
+}

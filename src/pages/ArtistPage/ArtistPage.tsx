@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from 'react';
 
 import { SongsContext } from '@app/App';
 import NamedIcon from '@components/NamedIcon';
+import ReturnButton from '@components/ReturnButton';
 import FacebookIcon from '@icons/FacebookIcon';
 import FollowersIcon from '@icons/FollowersIcon';
 import InstIcon from '@icons/InstIcon';
 import { RequestTypes, store } from '@store/store';
 import parse from 'html-react-parser';
-import { Link } from 'react-router-dom';
 
 import s from './ArtistPage.module.scss';
 
@@ -69,7 +69,7 @@ const ArtistPage: React.FC = () => {
     <>
       {!isLoading && (
         <div className={s.container}>
-          <Link to="/" className={s.arrow}></Link>
+          <ReturnButton />
 
           <div className={s.wrapper}>
             <div className={s.image}>

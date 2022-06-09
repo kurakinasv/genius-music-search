@@ -9,8 +9,6 @@
     @include flex(center, center);
 }
 
-@include return-button;
-
 .wrapper {
     width: 100%;
     max-width: 80vw;
