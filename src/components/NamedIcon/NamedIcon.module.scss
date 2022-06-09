@@ -1,0 +1,10 @@
+@import '@styles/mixins.module.scss';
+
+.info {
+    margin-bottom: 15px;
+    @include font(20px, 500, $darkBlue);
+
+    & span {
+        vertical-align: middle;
+    }
+}

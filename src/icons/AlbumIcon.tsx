@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
 
+import { colors } from '@styles/colors';
+
 import s from './Icons.module.scss';
 
 const AlbumIcon: FunctionComponent<{ color?: string }> = ({
-  color = '#95ADCF',
+  color = colors.lapisBlue,
 }) => {
   return (
     <svg
