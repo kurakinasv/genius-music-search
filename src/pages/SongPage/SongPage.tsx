@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
 import { SongsContext } from '@app/App';
+import NamedIcon from '@components/NamedIcon';
 import AlbumIcon from '@icons/AlbumIcon';
 import AnnotationsIcon from '@icons/AnnotationsIcon';
 import PlayIcon from '@icons/PlayIcon';
@@ -50,7 +51,7 @@ const SongPage: React.FC = () => {
 
       setIsLoading(false);
     } catch (error: any) {
-      console.log('error in songPage:', error.message);
+      console.log('error in SongPage:', error.message);
     }
   };
 
@@ -89,34 +90,36 @@ const SongPage: React.FC = () => {
               </div>
 
               <div className={s.stats}>
-                <div className={s.stats__text}>
-                  <span title="Release Date">
-                    <ReleaseDateIcon />
-                    <span>{data?.date}</span>
-                  </span>
-                </div>
+                {data?.date && (
+                  <NamedIcon
+                    children={<ReleaseDateIcon />}
+                    name={data.date}
+                    title="Release Date"
+                  />
+                )}
 
-                <div className={s.stats__text}>
-                  <span title="Album Name">
-                    <AlbumIcon />
-                    <span>{data?.album?.name}</span>
-                  </span>
-                </div>
+                {data?.album?.name && (
+                  <NamedIcon
+                    children={<AlbumIcon />}
+                    name={data.album.name}
+                    title="Album Name"
+                  />
+                )}
 
-                <div className={s.stats__text}>
-                  <span title="Pageviews on Genius">
-                    <ViewsIcon />
-                    <span>{data?.stats?.pageviews}</span>
-                  </span>
-                </div>
+                {data?.stats?.pageviews && (
+                  <NamedIcon
+                    children={<ViewsIcon />}
+                    name={String(data.stats.pageviews)}
+                    title="Pageviews on Genius"
+                  />
+                )}
 
-                {data?.annotationCount! > 0 && (
-                  <div className={s.stats__text}>
-                    <span title="Annotations on Genius">
-                      <AnnotationsIcon />
-                      <span>{data?.annotationCount}</span>
-                    </span>
-                  </div>
+                {!!data?.annotationCount && (
+                  <NamedIcon
+                    children={<AnnotationsIcon />}
+                    name={String(data.annotationCount)}
+                    title="Annotations on Genius"
+                  />
                 )}
               </div>
 
