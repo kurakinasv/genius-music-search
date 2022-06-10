@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, memo, ReactNode } from 'react';
 
 import s from './NamedIcon.module.scss';
 
@@ -19,4 +19,4 @@ const NamedIcon: FC<NamedIconProps> = ({ children, name, title }) => {
   );
 };
 
-export default NamedIcon;
+export default memo(NamedIcon);

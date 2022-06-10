@@ -1,75 +1,40 @@
-import {
-  FormEvent,
-  KeyboardEvent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { FormEvent, KeyboardEvent, useContext, useState } from 'react';
 
 import { SongsContext } from '@app/App';
 import ArtistCard from '@components/ArtistCard';
 import SongCard from '@components/SongCard';
-import { RequestTypes, store } from '@store/store';
-import { SongsContextType } from '@type/types';
+import Store from '@store/Store';
 
 import s from './SearchPage.module.scss';
 
 const SearchPage: React.FC = () => {
-  const [value, setValue] = useState('');
+  const context = useContext(SongsContext);
+  const { searchState } = context;
 
-  const songContext = useContext<SongsContextType>(SongsContext);
-  const state = songContext.state;
+  const store = new Store();
+
+  const [value, setValue] = useState('');
 
   const clickHandler = async () => {
     if (!value) return;
 
-    try {
-      const res: [] = await store.reqSearchData(value, RequestTypes.SEARCH);
+    await store.getSearchData(value);
 
-      const data = res.map(({ result }) => {
-        const {
-          id,
-          title,
-          artist_names: artist,
-          annotation_count: annotationCount,
-          song_art_image_url: songImg,
-          stats,
-          primary_artist: artistInfo,
-        } = result;
-
-        return {
-          id,
-          title,
-          artist,
-          annotationCount,
-          songImg,
-          stats,
-          artistInfo,
-        };
-      });
-
-      songContext.state = data;
-    } catch (error: any) {
-      console.log('error in clickHandler:', error.message);
-    }
+    context.searchState = store.searchState;
 
     setValue('');
   };
-
-  useEffect(() => {
-    console.log('store result useeffect', state);
-  }, [state]);
 
   const inputHandler = (event: FormEvent<HTMLInputElement>) => {
     setValue(event.currentTarget.value);
   };
 
-  const keyHandler = (event: KeyboardEvent) => {
+  const onEnterPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') clickHandler();
   };
 
-  const songsArray = state.map(({ id, title, artist }) => (
-    <SongCard key={id} id={id} title={title} artist={artist} />
+  const songsArray = searchState.map((props) => (
+    <SongCard key={props.id} {...props} />
   ));
 
   return (
@@ -81,15 +46,19 @@ const SearchPage: React.FC = () => {
           type="text"
           value={value}
           onChange={inputHandler}
-          onKeyUp={keyHandler}
+          onKeyUp={onEnterPress}
           placeholder="Enter song or artist..."
         />
         <button onClick={clickHandler}>Search</button>
       </div>
 
       <div className={s.wrapper}>
-        {state.length > 0 && <ArtistCard {...state[0]} />}
-        {state.length > 0 && <div className={s.cards}>{songsArray}</div>}
+        {!!searchState.length && (
+          <>
+            <ArtistCard {...searchState[0]} />
+            <div className={s.cards}>{songsArray}</div>
+          </>
+        )}
       </div>
     </div>
   );

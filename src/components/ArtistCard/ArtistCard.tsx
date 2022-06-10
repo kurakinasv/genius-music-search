@@ -1,24 +1,33 @@
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 
 import { SongsContext } from '@app/App';
-import { ArtistType, SongType } from '@type/types';
-import { Link, useNavigate } from 'react-router-dom';
+import Store from '@store/Store';
+import { ArtistType } from '@type/types';
+import { useNavigate } from 'react-router-dom';
 
 import s from './ArtistCard.module.scss';
 
-const ArtistCard: React.FC<SongType> = ({ artistInfo, artist }) => {
+const ArtistCard: React.FC<{ artistInfo: ArtistType }> = ({ artistInfo }) => {
   const navigate = useNavigate();
-  const artistContext = useContext(SongsContext);
+
+  const context = useContext(SongsContext);
+
+  const store = new Store();
+
+  const { id, name } = artistInfo;
+
   const clickHandler = () => {
-    navigate(`/artist/${artistInfo?.id}`);
-    artistContext.current = artistInfo!.id;
+    navigate(`/artist/${id}`);
+
+    context.currentEndpoint = id;
+    store.setCurrentId(id);
   };
 
   return (
     <>
       <div className={s.item}>
         <div className={s.content}>
-          <div className={s.title}>{artist}</div>
+          <div className={s.title}>{name}</div>
         </div>
 
         <div className={s.link} onClick={clickHandler}>
@@ -29,4 +38,4 @@ const ArtistCard: React.FC<SongType> = ({ artistInfo, artist }) => {
   );
 };
 
-export default ArtistCard;
+export default memo(ArtistCard);

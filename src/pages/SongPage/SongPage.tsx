@@ -8,63 +8,43 @@ import AnnotationsIcon from '@icons/AnnotationsIcon';
 import PlayIcon from '@icons/PlayIcon';
 import ReleaseDateIcon from '@icons/ReleaseDateIcon';
 import ViewsIcon from '@icons/ViewsIcon';
-import { RequestTypes, store } from '@store/store';
-import { SongsContextType } from '@type/types';
+import Store from '@store/Store';
 import parse from 'html-react-parser';
 
 import s from './SongPage.module.scss';
 
 const SongPage: React.FC = () => {
-  const songContext = useContext<SongsContextType>(SongsContext);
-  const current = `${songContext.current}`;
-  const data = store.currentData;
+  const { currentEndpoint } = useContext(SongsContext);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const store = new Store();
 
-  const getSongData = async () => {
-    try {
-      const res: any = await store.reqSearchData(current, RequestTypes.SONG);
+  const [isLoading, setIsLoading] = useState(false);
 
-      const {
-        id,
-        title,
-        artist_names: artist,
-        annotation_count: annotationCount,
-        release_date_for_display: date,
-        song_art_image_url: songImg,
-        stats,
-        album,
-        description,
-      } = res;
+  const [songData, setSongData] = useState(store.currentSongData);
 
-      store.currentData = {
-        id,
-        title,
-        artist,
-        annotationCount,
-        date,
-        songImg,
-        stats,
-        album,
-        description,
-      };
+  const getStoreSongData = async () => {
+    setIsLoading(true);
 
-      setIsLoading(false);
-    } catch (error: any) {
-      console.log('error in SongPage:', error.message);
-    }
+    if (currentEndpoint) await store.getSongData(currentEndpoint);
+    setSongData(store.currentSongData);
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    getSongData();
+    getStoreSongData();
   }, []);
 
-  const getSongDescription = () => {
-    // 8 - check for <p>?</p>
-    return data?.description.html.length > 8
-      ? parse(data?.description.html)
-      : '';
-  };
+  const {
+    description,
+    title,
+    songImg,
+    artist,
+    date,
+    album,
+    stats,
+    annotationCount,
+  } = songData;
 
   return (
     <>
@@ -75,10 +55,10 @@ const SongPage: React.FC = () => {
           <div className={s.wrapper}>
             <div className={s.image}>
               <div className={s.image__container}>
-                <img src={data?.songImg} alt={`${data?.title} cover`} />
+                <img src={songImg} alt={`${title} cover`} />
                 <img
-                  src={data?.songImg}
-                  alt={`${data?.title} blur cover`}
+                  src={songImg}
+                  alt={`${title} blur cover`}
                   className={s.image__background}
                 />
               </div>
@@ -86,39 +66,39 @@ const SongPage: React.FC = () => {
 
             <div className={s.info}>
               <div className={s.info__header}>
-                <div className={s.title}>{data?.title}</div>
-                <div className={s.artist}>{data?.artist}</div>
+                <div className={s.title}>{title}</div>
+                <div className={s.artist}>{artist}</div>
               </div>
 
               <div className={s.stats}>
-                {data?.date && (
+                {date && (
                   <NamedIcon
                     children={<ReleaseDateIcon />}
-                    name={data.date}
+                    name={date}
                     title="Release Date"
                   />
                 )}
 
-                {data?.album?.name && (
+                {album?.name && (
                   <NamedIcon
                     children={<AlbumIcon />}
-                    name={data.album.name}
+                    name={album.name}
                     title="Album Name"
                   />
                 )}
 
-                {data?.stats?.pageviews && (
+                {stats?.pageviews && (
                   <NamedIcon
                     children={<ViewsIcon />}
-                    name={String(data.stats.pageviews)}
+                    name={String(stats.pageviews)}
                     title="Pageviews on Genius"
                   />
                 )}
 
-                {!!data?.annotationCount && (
+                {!!annotationCount && (
                   <NamedIcon
                     children={<AnnotationsIcon />}
-                    name={String(data.annotationCount)}
+                    name={String(annotationCount)}
                     title="Annotations on Genius"
                   />
                 )}
@@ -129,7 +109,9 @@ const SongPage: React.FC = () => {
                 <span className={s.listen_demo}>Listen demo</span>
               </div>
 
-              <div className={s.description}>{getSongDescription()}</div>
+              <div className={s.description}>
+                {description.html.length > 8 ? parse(description.html) : ''}
+              </div>
             </div>
           </div>
         </div>

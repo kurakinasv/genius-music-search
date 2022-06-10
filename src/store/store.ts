@@ -1,83 +1,148 @@
-import { ArtistPageType, SongPageType, SongType } from '@type/types';
+import { options, BASE_URL, plain } from '@config/apiConfig';
+import { defaultArtistData, defaultSongData } from '@config/defaultValues';
+import {
+  ArtistPageType,
+  RequestTypes,
+  SongPageType,
+  MainInfoType,
+} from '@type/types';
 
-interface IStore {
-  options: object;
-  BASE_URL: string;
-  reqSearchData: (value: string, type?: RequestTypes) => Promise<[]>;
-  state: SongType[];
-  currentId: number | null;
-  currentData: Partial<SongPageType & ArtistPageType> | null;
-  getSongsState: () => SongType[];
-  getCurrentId: () => number | null;
-  setSongsState: (state: SongType[]) => void;
-  setCurrentId: (current: number) => void;
-}
+class Store {
+  options = options;
+  BASE_URL = BASE_URL;
+  plain = plain;
 
-export enum RequestTypes {
-  SEARCH = 'search?q=',
-  SONG = 'songs/',
-  ARTIST = 'artists/',
-}
+  searchState: MainInfoType[] = [];
+  currentId: number | null = null;
 
-export const store: IStore = {
-  options: {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Host': 'genius.p.rapidapi.com',
-      'X-RapidAPI-Key': '9423114bedmshdb4787265158ed3p16910bjsn8b2ca0679646',
-    },
-  },
+  currentSongData: SongPageType = defaultSongData;
+  currentArtistData: ArtistPageType = defaultArtistData;
 
-  BASE_URL: 'https://genius.p.rapidapi.com/',
+  isLoading = false;
 
-  reqSearchData: async (value: string, type) => {
-    let url = store.BASE_URL + type + value;
-    const plain = '?text_format=html';
+  setSearchState(data: MainInfoType[]) {
+    this.searchState = data;
+  }
 
-    if (type === RequestTypes.SONG || type === RequestTypes.ARTIST) {
-      url += plain;
-    }
+  setCurrentId(id: number) {
+    this.currentId = id;
+  }
+
+  getSearchData = async (query: string) => {
+    this.isLoading = true;
 
     try {
-      let response = await fetch(url, store.options);
-      let data = await response.json();
+      const url = this.BASE_URL + RequestTypes.SEARCH + query;
 
-      switch (type) {
-        case RequestTypes.SEARCH:
-          return data.response.hits;
+      const response = await fetch(url, this.options);
 
-        case RequestTypes.SONG: {
-          console.log('data', data.response.song);
-          return data.response.song;
-        }
-        case RequestTypes.ARTIST:
-          return data.response.artist;
-      }
+      const data = await response.json();
+
+      const result = data.response.hits.map((item: Record<string, any>) => {
+        const {
+          id,
+          title,
+          artist_names: artist,
+          annotation_count: annotationCount,
+          song_art_image_url: songImg,
+          stats,
+          primary_artist: artistInfo,
+        } = item.result;
+
+        return {
+          id,
+          title,
+          artist,
+          annotationCount,
+          songImg,
+          stats,
+          artistInfo,
+        };
+      });
+
+      this.setSearchState(result);
     } catch (error: any) {
-      console.error('Error:', error.message);
-      return [];
+      console.error('getSearchData', error);
     }
-  },
 
-  state: [],
+    this.isLoading = false;
+  };
 
-  currentId: null,
+  getSongData = async (currentId: number) => {
+    this.isLoading = true;
 
-  currentData: null,
+    try {
+      const url = this.BASE_URL + RequestTypes.SONG + currentId + this.plain;
 
-  getSongsState: () => {
-    return store.state;
-  },
+      const response = await fetch(url, this.options);
 
-  getCurrentId: () => {
-    return store.currentId;
-  },
+      const data = await response.json();
 
-  setSongsState: (state) => {
-    store.state = state;
-  },
+      const {
+        id,
+        title,
+        artist_names: artist,
+        annotation_count: annotationCount,
+        release_date_for_display: date,
+        song_art_image_url: songImg,
+        stats,
+        album,
+        description,
+      } = data.response.song;
 
-  setCurrentId: (current) => {
-    store.currentId = current;
-  },
-};
+      this.currentSongData = {
+        id,
+        title,
+        artist,
+        annotationCount,
+        date,
+        songImg,
+        stats,
+        album,
+        description,
+      };
+    } catch (error: any) {
+      console.log('getSongData', error);
+    }
+
+    this.isLoading = false;
+  };
+
+  getArtistData = async (currentId: number) => {
+    this.isLoading = true;
+
+    try {
+      const url = this.BASE_URL + RequestTypes.ARTIST + currentId + this.plain;
+
+      const response = await fetch(url, this.options);
+
+      const data = await response.json();
+
+      const {
+        id,
+        name,
+        image_url,
+        facebook_name,
+        instagram_name,
+        followers_count,
+        description,
+      } = data.response.artist;
+
+      this.currentArtistData = {
+        id,
+        name,
+        image_url,
+        facebook_name,
+        instagram_name,
+        followers_count,
+        description,
+      };
+    } catch (error: any) {
+      console.log('getArtistData', error);
+    }
+
+    this.isLoading = false;
+  };
+}
+
+export default Store;

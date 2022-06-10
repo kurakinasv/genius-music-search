@@ -1,19 +1,35 @@
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 
 import { SongsContext } from '@app/App';
-import { SongsContextType, SongType } from '@type/types';
+import Store from '@store/Store';
+import { ArtistType } from '@type/types';
 import { Link, useNavigate } from 'react-router-dom';
 
 import s from './SongCard.module.scss';
 
-const SongCard: React.FC<SongType> = ({ id, title, artist }) => {
+export type SongCardType = {
+  id: number;
+  title: string;
+  artistInfo: ArtistType;
+};
+
+const SongCard: React.FC<SongCardType> = ({ id, title, artistInfo }) => {
   const navigate = useNavigate();
 
-  const songContext = useContext<SongsContextType>(SongsContext);
+  const context = useContext(SongsContext);
 
-  const clickHandler = () => {
+  const store = new Store();
+
+  const songClickHandler = () => {
     navigate(`/song/${id}`);
-    songContext.current = id;
+
+    context.currentEndpoint = id;
+    store.setCurrentId(id);
+  };
+
+  const artistClickHandler = () => {
+    context.currentEndpoint = artistInfo.id;
+    store.setCurrentId(artistInfo.id);
   };
 
   return (
@@ -21,12 +37,16 @@ const SongCard: React.FC<SongType> = ({ id, title, artist }) => {
       <div className={s.item}>
         <div className={s.content}>
           <div className={s.title}>{title}</div>
-          <Link to={`/artist/${id}`} className={s.artist}>
-            {artist}
+          <Link
+            to={`/artist/${artistInfo.id}`}
+            className={s.artist}
+            onClick={artistClickHandler}
+          >
+            {artistInfo.name}
           </Link>
         </div>
 
-        <div className={s.link} onClick={clickHandler}>
+        <div className={s.link} onClick={songClickHandler}>
           Перейти к описанию
         </div>
       </div>
@@ -34,4 +54,4 @@ const SongCard: React.FC<SongType> = ({ id, title, artist }) => {
   );
 };
 
-export default SongCard;
+export default memo(SongCard);

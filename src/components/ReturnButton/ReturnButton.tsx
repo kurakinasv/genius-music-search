@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -8,4 +8,4 @@ const ReturnButton: FunctionComponent = () => {
   return <Link to="/" className={s.arrow} />;
 };
 
-export default ReturnButton;
+export default memo(ReturnButton);

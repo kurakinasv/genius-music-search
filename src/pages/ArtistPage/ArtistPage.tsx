@@ -6,64 +6,41 @@ import ReturnButton from '@components/ReturnButton';
 import FacebookIcon from '@icons/FacebookIcon';
 import FollowersIcon from '@icons/FollowersIcon';
 import InstIcon from '@icons/InstIcon';
-import { RequestTypes, store } from '@store/store';
+import Store from '@store/Store';
 import parse from 'html-react-parser';
 
 import s from './ArtistPage.module.scss';
 
 const ArtistPage: React.FC = () => {
-  const artistContext = useContext(SongsContext);
-  // const state = artistContext.state.filter(
-  //   (song) => song.id === artistContext.current
-  // )[0];
+  const { currentEndpoint } = useContext(SongsContext);
 
-  const current = `${artistContext.current}`;
-  const data = store.currentData;
+  const store = new Store();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getArtistData = async () => {
-    console.log('getArtistData');
+  const [artistData, setArtistData] = useState(store.currentArtistData);
 
-    try {
-      const res: any = await store.reqSearchData(current, RequestTypes.ARTIST);
+  const getStoreArtistData = async () => {
+    setIsLoading(true);
 
-      const {
-        id,
-        name,
-        image_url,
-        facebook_name,
-        instagram_name,
-        followers_count,
-        description,
-      } = res;
+    if (currentEndpoint) await store.getArtistData(currentEndpoint);
+    setArtistData(store.currentArtistData);
 
-      store.currentData = {
-        id,
-        name,
-        image_url,
-        facebook_name,
-        instagram_name,
-        followers_count,
-        description,
-      };
-
-      setIsLoading(false);
-    } catch (error: any) {
-      console.log('error in ArtistPage:', error.message);
-    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    getArtistData();
+    getStoreArtistData();
   }, []);
 
-  const getArtistDescription = () => {
-    // 8 - check for <p>?</p>
-    return data?.description.html.length > 8
-      ? parse(data?.description.html)
-      : '';
-  };
+  const {
+    name,
+    image_url,
+    facebook_name,
+    instagram_name,
+    followers_count,
+    description,
+  } = artistData;
 
   return (
     <>
@@ -73,38 +50,40 @@ const ArtistPage: React.FC = () => {
 
           <div className={s.wrapper}>
             <div className={s.image}>
-              <img src={data?.image_url} alt={data?.name} />
+              <img src={image_url} alt={name} />
             </div>
 
             <div className={s.info}>
-              <div className={s.title}>{data?.name}</div>
+              <div className={s.title}>{name}</div>
               <div className={s.stats}>
-                {data?.facebook_name && (
+                {facebook_name && (
                   <NamedIcon
                     children={<FacebookIcon />}
-                    name={data?.facebook_name}
+                    name={facebook_name}
                     title="Facebook"
                   />
                 )}
 
-                {data?.instagram_name && (
+                {instagram_name && (
                   <NamedIcon
                     children={<InstIcon />}
-                    name={data?.instagram_name}
+                    name={instagram_name}
                     title="Instagram"
                   />
                 )}
 
-                {data?.followers_count && (
+                {followers_count && (
                   <NamedIcon
                     children={<FollowersIcon />}
-                    name={String(data?.followers_count)}
+                    name={String(followers_count)}
                     title="Followers on Genius"
                   />
                 )}
               </div>
 
-              <div className={s.description}>{getArtistDescription()}</div>
+              <div className={s.description}>
+                {description.html.length > 8 ? parse(description.html) : ''}
+              </div>
             </div>
           </div>
         </div>
