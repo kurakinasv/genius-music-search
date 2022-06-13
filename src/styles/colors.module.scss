@@ -1,7 +1,12 @@
 $lightBlue: #F2FAFF;
 $blue: #e5efff;
 $darkerBlue: #bdd4f5;
-$lapisBlue: #95ADCF;
-$darkBlue: #3D4756;
+$lapisBlue: #95adcf;
+$darkBlue: #3d4756;
 $darkGrey: #383838;
 $white: #fff;
+$black: #000;
+
+@function lapisBlueOpacity($opacity) {
+    @return rgba(149, 173, 207, $opacity);
+}

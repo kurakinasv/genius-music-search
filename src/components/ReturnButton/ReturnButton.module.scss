@@ -1,4 +1,5 @@
 @import '@styles/colors.module.scss';
+@import '@styles/mixins.module.scss';
 
 $backWidth: 5vw;
 
@@ -17,12 +18,12 @@ $lineRightIndent: calc((#{$backWidth} - #{$lineWidth}) / 2);
     height: 100vh;
 
     cursor: pointer;
-    transition: 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    @include transition();
 }
 
 .arrow:hover {
     background-color: $blue;
-    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    @include transition(1s);
 }
 
 .arrow::before {

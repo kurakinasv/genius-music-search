@@ -96,7 +96,7 @@
     border-radius: 8px;
     background-color: $lapisBlue;
 
-    transition: opacity 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    @include transition(opacity 0.5s);
     cursor: pointer;
 
     &:hover {

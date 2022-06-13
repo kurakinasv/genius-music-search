@@ -25,13 +25,23 @@ const ArtistCard: React.FC<{ artistInfo: ArtistType }> = ({ artistInfo }) => {
 
   return (
     <>
-      <div className={s.item}>
+      <div
+        className={s.item}
+        style={{
+          backgroundImage: `url(${artistInfo.image_url})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundBlendMode: 'soft-light',
+        }}
+      >
         <div className={s.content}>
-          <div className={s.title}>{name}</div>
+          <div className={s.title}>
+            <span>{name}</span>
+          </div>
         </div>
 
         <div className={s.link} onClick={clickHandler}>
-          Перейти к исполнителю
+          <span>Перейти к исполнителю</span>
         </div>
       </div>
     </>

@@ -20,6 +20,10 @@
     font-family: $family;
 }
 
+@mixin transition($time: 0.7s) {
+    transition: $time cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 @mixin scrollbar {
     &::-webkit-scrollbar {
         width: 0.5em;

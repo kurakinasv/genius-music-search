@@ -47,7 +47,7 @@ const SongCard: React.FC<SongCardType> = ({ id, title, artistInfo }) => {
         </div>
 
         <div className={s.link} onClick={songClickHandler}>
-          Перейти к описанию
+          <span>Перейти к описанию</span>
         </div>
       </div>
     </>

@@ -14,13 +14,22 @@ const SearchPage: React.FC = () => {
   const store = new Store();
 
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState(value);
+  const [isQueryDisplayed, setIsQueryDisplayed] = useState(false);
 
   const clickHandler = async () => {
     if (!value) return;
 
+    setIsLoading(true);
+
     await store.getSearchData(value);
 
     context.searchState = store.searchState;
+
+    setIsLoading(false);
+    setQuery(value);
+    setIsQueryDisplayed(true);
 
     setValue('');
   };
@@ -39,8 +48,6 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <h2>Search page</h2>
-
       <div className={s.search}>
         <input
           type="text"
@@ -48,9 +55,14 @@ const SearchPage: React.FC = () => {
           onChange={inputHandler}
           onKeyUp={onEnterPress}
           placeholder="Enter song or artist..."
+          disabled={isLoading}
         />
-        <button onClick={clickHandler}>Search</button>
+        <button onClick={clickHandler} disabled={isLoading}>
+          Search
+        </button>
       </div>
+
+      {isQueryDisplayed && <h1 className={s.query}>"{query}"</h1>}
 
       <div className={s.wrapper}>
         {!!searchState.length && (

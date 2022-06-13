@@ -1,0 +1,77 @@
+@import '@styles/colors.module.scss';
+@import '@styles/mixins.module.scss';
+
+@mixin card-link {
+    position: relative;
+
+    margin: 10px -30px -0 -30px;
+    padding: 17px 0;
+
+    border-radius: 0px 0px 8px 8px;
+    @include transition();
+
+    span {
+        @include font(22px, 400, $lightBlue, $franklin);
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: calc(50% - 13px / 2);
+        left: 100%;
+
+        width: 20px;
+        height: 4px;
+
+        opacity: 0;
+
+        border-radius: 8px;
+        background-color: $blue;
+
+        transition: transform 0.5s, opacity 0.5s;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: calc(50% + 13px / 2);
+        left: 100%;
+
+        opacity: 0;
+
+        width: 20px;
+        height: 4px;
+
+        border-radius: 8px;
+        background-color: $blue;
+
+        transition: transform 0.5s, opacity 0.5s;
+        transform: rotate(-45deg);
+    }
+
+    &:hover {
+        background-color: lapisBlueOpacity(0.9);
+        cursor: pointer;
+        @include transition(1s);
+
+        span {
+            color: $white;
+        }
+
+        &::before,
+        &::after {
+            opacity: 1;
+            transition-property: transform, opacity;
+            transition-duration: 0.5s;
+        }
+
+        &::before {
+            transform: translateX(-45px) rotate(45deg);
+        }
+
+        &::after {
+            transform: translateX(-45px) rotate(-45deg);
+        }
+    }
+}

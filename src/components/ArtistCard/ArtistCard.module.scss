@@ -1,38 +1,46 @@
-.item{
-    max-width: 40vw;
-    height: 25vh;
-    
+@import '@styles/colors.module.scss';
+@import '@styles/mixins.module.scss';
+@import '@styles/cardLink.module.scss';
+
+.item {
+    width: 40vw;
+    min-width: 470px;
+    min-height: 230px;
+
     margin: 4vh 0;
+    padding: 30px 30px 0 30px;
 
     display: flex;
     flex-direction: column;
 
-    padding: 30px 30px 20px 30px;
-
     text-align: center;
 
-    background-color:antiquewhite;
+    background-color: lapisBlueOpacity(0.7);
     border-radius: 8px;
+
+    @include transition();
+
+    &:hover {
+        background-color: $lapisBlue;
+        @include transition();
+    }
 }
 
-.content{
+.content {
     flex: 1 1 auto;
 }
 
-.title{
+.title {
     margin-bottom: 10px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 50px;
+    @include font(50px, 500, $black, $franklinMedium);
+
+    span {
+        display: inline-block;
+        line-height: 1.2;
+        backdrop-filter: blur(4px);
+    }
 }
 
-.link{
-    border-radius: 4px;
-    transition: 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
-    padding: 10px 0;
-    cursor: pointer;
-}
-
-.link:hover{
-    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    background-color:rgb(239, 217, 189);
+.link {
+    @include card-link;
 }
