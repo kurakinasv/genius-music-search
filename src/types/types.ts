@@ -25,9 +25,11 @@ export type SongPageType = {
   stats?: SongStatsType;
 
   description: Record<string, string>;
+  apple_music_id?: string;
   apple_music_player_url?: string;
   date?: string;
   album?: AlbumType;
+  media?: any[];
 };
 
 export type ArtistPageType = {

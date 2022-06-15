@@ -4,8 +4,9 @@ import { colors } from '@styles/colors';
 
 import s from './Icons.module.scss';
 
-const PlayIcon: FunctionComponent<{ color?: string }> = ({
+const PlayIcon: FunctionComponent<{ color?: string; isPressed: boolean }> = ({
   color = colors.lightBlue,
+  isPressed = false,
 }) => {
   return (
     <svg
@@ -14,7 +15,7 @@ const PlayIcon: FunctionComponent<{ color?: string }> = ({
       viewBox="0 0 39 53"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={s.playicon}
+      className={`${s.playicon} ${isPressed && s.playicon__pressed}`}
     >
       <path
         fillRule="evenodd"

@@ -11,4 +11,11 @@
     margin-right: 16px;
     margin-left: 13px;
     vertical-align: middle;
+
+    @include transition(0.5s);
+
+    &__pressed {
+        transform: rotate(90deg) translateX(7px);
+        @include transition(0.5s);
+    }
 }

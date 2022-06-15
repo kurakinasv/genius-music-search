@@ -88,6 +88,9 @@ class Store {
         stats,
         album,
         description,
+        apple_music_id,
+        apple_music_player_url,
+        media,
       } = data.response.song;
 
       this.currentSongData = {
@@ -100,6 +103,9 @@ class Store {
         stats,
         album,
         description,
+        apple_music_id,
+        apple_music_player_url,
+        media,
       };
     } catch (error: any) {
       console.log('getSongData', error);

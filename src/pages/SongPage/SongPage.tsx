@@ -44,7 +44,29 @@ const SongPage: React.FC = () => {
     album,
     stats,
     annotationCount,
+    apple_music_id,
+    apple_music_player_url,
+    media,
   } = songData;
+
+  const [isActive, setIsActive] = useState(false);
+  const changeListenBtnState = () => {
+    setIsActive((v) => !v);
+  };
+
+  const renderMediaLinks = () => {
+    return (
+      <ul>
+        {media?.map((item) => (
+          <li>
+            <a href={item.url} target="_blank" rel="noreferrer">
+              {item.provider}
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <>
@@ -104,10 +126,35 @@ const SongPage: React.FC = () => {
                 )}
               </div>
 
-              <div className={s.listen__button}>
-                <PlayIcon />
-                <span className={s.listen_demo}>Listen demo</span>
-              </div>
+              {apple_music_id && (
+                <div
+                  className={s.listen__button}
+                  onClick={changeListenBtnState}
+                >
+                  <PlayIcon isPressed={isActive} />
+                  <span className={s.listen_demo}>Послушать</span>
+                </div>
+              )}
+
+              {isActive && (
+                <>
+                  <div className={s.media}>Слушать демо</div>
+                  <iframe
+                    src={apple_music_player_url}
+                    title={title}
+                    className={s.player}
+                  />
+                  <div className={s.media}>
+                    Слушать полностью {media && renderMediaLinks()}
+                  </div>
+                </>
+              )}
+
+              {!apple_music_id && !!media?.length && (
+                <div className={s.media}>
+                  Послушать на {media && renderMediaLinks()}
+                </div>
+              )}
 
               <div className={s.description}>
                 {description.html.length > 8 ? parse(description.html) : ''}
