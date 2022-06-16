@@ -13,6 +13,7 @@ import useMusicStore from '@store/useMusicStore';
 import { observer } from 'mobx-react-lite';
 
 import s from './SearchPage.module.scss';
+import SearchPageLoader from './SearchPageLoader';
 
 const SearchPage: React.FC = () => {
   const context = useContext(musicContext);
@@ -61,18 +62,16 @@ const SearchPage: React.FC = () => {
         </button>
       </div>
 
-      {musicStore.isLoading && <div>Loading...</div>}
+      {musicStore.isLoading && <SearchPageLoader />}
 
-      {!!context.currentQuery && (
+      {!musicStore.isLoading && !!context.currentQuery && (
         <h1 className={s.query}>"{context.currentQuery}"</h1>
       )}
 
-      {!!searchState.length && (
+      {!musicStore.isLoading && !!searchState.length && (
         <>
-          <div className={s.wrapper}>
-            <ArtistCard {...searchState[0]} />
-            <div className={s.cards}>{songsArray}</div>
-          </div>
+          <ArtistCard {...searchState[0]} />
+          <div className={s.cards}>{songsArray}</div>
         </>
       )}
     </div>

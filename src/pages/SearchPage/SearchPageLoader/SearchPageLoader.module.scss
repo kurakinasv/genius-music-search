@@ -1,0 +1,47 @@
+@import '@styles/mixins.module.scss';
+
+.title {
+    width: calc(33.3333% - 2vw);
+    height: 40px;
+
+    margin-top: 4vh;
+
+    border-radius: 4px;
+}
+
+.cards {
+    margin-top: 4vh;
+
+    @include flex(space-between);
+    flex-wrap: wrap;
+    column-gap: 2vh;
+    row-gap: 4vh;
+
+    &_item {
+        min-width: 330px;
+        max-width: 25vw;
+        min-height: 230px;
+
+        display: flex;
+        flex-direction: column;
+        flex-basis: 33.333%;
+
+        border-radius: 8px;
+    }
+}
+
+.artist {
+    width: 40vw;
+    min-width: 470px;
+    min-height: 230px;
+
+    margin: 4vh 0;
+
+    border-radius: 8px;
+}
+
+.title,
+.cards_item,
+.artist {
+    @include skeleton-animation;
+}

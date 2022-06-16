@@ -1,0 +1,76 @@
+@import '@styles/mixins.module.scss';
+
+.image {
+    @include square(clamp(200px, 50%, 900px));
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+}
+
+.info {
+    width: 50%;
+    height: 65vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    width: 66.667%;
+    height: 70px;
+
+    margin-bottom: 16px;
+
+    border-radius: 4px;
+}
+
+.artist {
+    width: 66.667%;
+    height: 40px;
+
+    margin-bottom: 30px;
+
+    border-radius: 4px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 15px;
+
+    &_item {
+        width: 33.333%;
+        height: 25px;
+
+        margin-bottom: 15px;
+
+        border-radius: 4px;
+    }
+}
+
+.button {
+    max-width: 460px;
+    height: 76px;
+
+    margin-bottom: 30px;
+
+    border-radius: 8px;
+}
+
+.description {
+    flex: 1 1 auto;
+    border-radius: 4px;
+}
+
+.image,
+.title,
+.artist,
+.stats_item,
+.button,
+.description {
+    @include skeleton-animation;
+}
