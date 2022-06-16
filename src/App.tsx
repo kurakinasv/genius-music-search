@@ -4,7 +4,7 @@ import ArtistPage from '@pages/ArtistPage';
 import SearchPage from '@pages/SearchPage';
 import SongPage from '@pages/SongPage';
 import { MainInfoType } from '@type/types';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 type MusicContext = {
   searchState: MainInfoType[];
@@ -28,7 +28,7 @@ const App: FC = () => {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MusicContextProvider value={value}>
         <Routes>
           <Route index element={<SearchPage />} />
@@ -37,7 +37,7 @@ const App: FC = () => {
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </MusicContextProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
