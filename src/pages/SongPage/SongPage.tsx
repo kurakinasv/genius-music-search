@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { SongsContext } from '@app/App';
+import { musicContext } from '@app/App';
 import NamedIcon from '@components/NamedIcon';
 import ReturnButton from '@components/ReturnButton';
 import AlbumIcon from '@icons/AlbumIcon';
@@ -8,31 +8,23 @@ import AnnotationsIcon from '@icons/AnnotationsIcon';
 import PlayIcon from '@icons/PlayIcon';
 import ReleaseDateIcon from '@icons/ReleaseDateIcon';
 import ViewsIcon from '@icons/ViewsIcon';
-import Store from '@store/Store';
+import useMusicStore from '@store/useMusicStore';
 import parse from 'html-react-parser';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 import s from './SongPage.module.scss';
 
 const SongPage: React.FC = () => {
-  const { currentEndpoint } = useContext(SongsContext);
+  const { currentEndpoint } = useContext(musicContext);
 
-  const store = new Store();
+  const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [songData, setSongData] = useState(store.currentSongData);
-
-  const getStoreSongData = async () => {
-    setIsLoading(true);
-
-    if (currentEndpoint) await store.getSongData(currentEndpoint);
-    setSongData(store.currentSongData);
-
-    setIsLoading(false);
-  };
+  const musicStore = useMusicStore();
 
   useEffect(() => {
-    getStoreSongData();
+    if (currentEndpoint) musicStore.getSongData(currentEndpoint);
+    else navigate('/');
   }, []);
 
   const {
@@ -47,7 +39,7 @@ const SongPage: React.FC = () => {
     apple_music_id,
     apple_music_player_url,
     media,
-  } = songData;
+  } = musicStore.currentSongData;
 
   const [isActive, setIsActive] = useState(false);
   const changeListenBtnState = () => {
@@ -58,7 +50,7 @@ const SongPage: React.FC = () => {
     return (
       <ul>
         {media?.map((item) => (
-          <li>
+          <li key={item.provider}>
             <a href={item.url} target="_blank" rel="noreferrer">
               {item.provider}
             </a>
@@ -70,7 +62,7 @@ const SongPage: React.FC = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!musicStore.isLoading && (
         <div className={s.container}>
           <ReturnButton />
 
@@ -144,9 +136,11 @@ const SongPage: React.FC = () => {
                     title={title}
                     className={s.player}
                   />
-                  <div className={s.media}>
-                    Слушать полностью {media && renderMediaLinks()}
-                  </div>
+                  {!!media?.length && (
+                    <div className={s.media}>
+                      Слушать полностью {media && renderMediaLinks()}
+                    </div>
+                  )}
                 </>
               )}
 
@@ -164,9 +158,9 @@ const SongPage: React.FC = () => {
         </div>
       )}
 
-      {isLoading && <p>Loading...</p>}
+      {musicStore.isLoading && <p>Loading...</p>}
     </>
   );
 };
 
-export default SongPage;
+export default observer(SongPage);

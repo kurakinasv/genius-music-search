@@ -6,30 +6,51 @@ import {
   SongPageType,
   MainInfoType,
 } from '@type/types';
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from 'mobx';
 
-class Store {
-  options = options;
-  BASE_URL = BASE_URL;
-  plain = plain;
+type PrivateFields = '_isLoading';
+
+class MusicStore {
+  private readonly options = options;
+  private readonly BASE_URL = BASE_URL;
+  private readonly plain = plain;
 
   searchState: MainInfoType[] = [];
-  currentId: number | null = null;
 
   currentSongData: SongPageType = defaultSongData;
   currentArtistData: ArtistPageType = defaultArtistData;
 
-  isLoading = false;
+  private _isLoading = false;
+
+  constructor() {
+    makeObservable<MusicStore, PrivateFields>(this, {
+      _isLoading: observable,
+      isLoading: computed,
+
+      getSearchData: action,
+      getSongData: action,
+      getArtistData: action,
+
+      setSearchState: action,
+    });
+  }
+
+  get isLoading() {
+    return this._isLoading;
+  }
 
   setSearchState(data: MainInfoType[]) {
     this.searchState = data;
   }
 
-  setCurrentId(id: number) {
-    this.currentId = id;
-  }
-
   getSearchData = async (query: string) => {
-    this.isLoading = true;
+    this._isLoading = true;
 
     try {
       const url = this.BASE_URL + RequestTypes.SEARCH + query;
@@ -38,38 +59,42 @@ class Store {
 
       const data = await response.json();
 
-      const result = data.response.hits.map((item: Record<string, any>) => {
-        const {
-          id,
-          title,
-          artist_names: artist,
-          annotation_count: annotationCount,
-          song_art_image_url: songImg,
-          stats,
-          primary_artist: artistInfo,
-        } = item.result;
+      runInAction(() => {
+        const result = data.response.hits.map((item: Record<string, any>) => {
+          const {
+            id,
+            title,
+            artist_names: artist,
+            annotation_count: annotationCount,
+            song_art_image_url: songImg,
+            stats,
+            primary_artist: artistInfo,
+          } = item.result;
 
-        return {
-          id,
-          title,
-          artist,
-          annotationCount,
-          songImg,
-          stats,
-          artistInfo,
-        };
+          return {
+            id,
+            title,
+            artist,
+            annotationCount,
+            songImg,
+            stats,
+            artistInfo,
+          };
+        });
+
+        this.setSearchState(result);
       });
-
-      this.setSearchState(result);
     } catch (error: any) {
       console.error('getSearchData', error);
     }
 
-    this.isLoading = false;
+    runInAction(() => {
+      this._isLoading = false;
+    });
   };
 
   getSongData = async (currentId: number) => {
-    this.isLoading = true;
+    this._isLoading = true;
 
     try {
       const url = this.BASE_URL + RequestTypes.SONG + currentId + this.plain;
@@ -78,44 +103,48 @@ class Store {
 
       const data = await response.json();
 
-      const {
-        id,
-        title,
-        artist_names: artist,
-        annotation_count: annotationCount,
-        release_date_for_display: date,
-        song_art_image_url: songImg,
-        stats,
-        album,
-        description,
-        apple_music_id,
-        apple_music_player_url,
-        media,
-      } = data.response.song;
+      runInAction(() => {
+        const {
+          id,
+          title,
+          artist_names: artist,
+          annotation_count: annotationCount,
+          release_date_for_display: date,
+          song_art_image_url: songImg,
+          stats,
+          album,
+          description,
+          apple_music_id,
+          apple_music_player_url,
+          media,
+        } = data.response.song;
 
-      this.currentSongData = {
-        id,
-        title,
-        artist,
-        annotationCount,
-        date,
-        songImg,
-        stats,
-        album,
-        description,
-        apple_music_id,
-        apple_music_player_url,
-        media,
-      };
+        this.currentSongData = {
+          id,
+          title,
+          artist,
+          annotationCount,
+          date,
+          songImg,
+          stats,
+          album,
+          description,
+          apple_music_id,
+          apple_music_player_url,
+          media,
+        };
+      });
     } catch (error: any) {
       console.log('getSongData', error);
     }
 
-    this.isLoading = false;
+    runInAction(() => {
+      this._isLoading = false;
+    });
   };
 
   getArtistData = async (currentId: number) => {
-    this.isLoading = true;
+    this._isLoading = true;
 
     try {
       const url = this.BASE_URL + RequestTypes.ARTIST + currentId + this.plain;
@@ -124,31 +153,35 @@ class Store {
 
       const data = await response.json();
 
-      const {
-        id,
-        name,
-        image_url,
-        facebook_name,
-        instagram_name,
-        followers_count,
-        description,
-      } = data.response.artist;
+      runInAction(() => {
+        const {
+          id,
+          name,
+          image_url,
+          facebook_name,
+          instagram_name,
+          followers_count,
+          description,
+        } = data.response.artist;
 
-      this.currentArtistData = {
-        id,
-        name,
-        image_url,
-        facebook_name,
-        instagram_name,
-        followers_count,
-        description,
-      };
+        this.currentArtistData = {
+          id,
+          name,
+          image_url,
+          facebook_name,
+          instagram_name,
+          followers_count,
+          description,
+        };
+      });
     } catch (error: any) {
       console.log('getArtistData', error);
     }
 
-    this.isLoading = false;
+    runInAction(() => {
+      this._isLoading = false;
+    });
   };
 }
 
-export default Store;
+export default MusicStore;

@@ -25,7 +25,7 @@ const AlbumIcon: FunctionComponent<{ color?: string }> = ({
         d="M10 27.5H26.75C27.1642 27.5 27.5 27.1642 27.5 26.75V10"
         stroke={color}
         strokeWidth="1.7"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M13.75 15.625C13.75 16.6605 12.9105 17.5 11.875 17.5C10.8395 17.5 10 16.6605 10 15.625C10 14.5895 10.8395 13.75 11.875 13.75C12.9105 13.75 13.75 14.5895 13.75 15.625Z"

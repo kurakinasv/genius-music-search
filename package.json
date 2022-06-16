@@ -14,6 +14,8 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.25",
     "html-react-parser": "^1.4.11",
+    "mobx": "^6.6.0",
+    "mobx-react-lite": "^3.4.0",
     "node-sass": "6.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

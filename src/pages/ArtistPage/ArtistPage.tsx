@@ -1,36 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { SongsContext } from '@app/App';
+import { musicContext } from '@app/App';
 import NamedIcon from '@components/NamedIcon';
 import ReturnButton from '@components/ReturnButton';
 import FacebookIcon from '@icons/FacebookIcon';
 import FollowersIcon from '@icons/FollowersIcon';
 import InstIcon from '@icons/InstIcon';
-import Store from '@store/Store';
+import useMusicStore from '@store/useMusicStore';
 import parse from 'html-react-parser';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 import s from './ArtistPage.module.scss';
 
 const ArtistPage: React.FC = () => {
-  const { currentEndpoint } = useContext(SongsContext);
+  const { currentEndpoint } = useContext(musicContext);
 
-  const store = new Store();
+  const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [artistData, setArtistData] = useState(store.currentArtistData);
-
-  const getStoreArtistData = async () => {
-    setIsLoading(true);
-
-    if (currentEndpoint) await store.getArtistData(currentEndpoint);
-    setArtistData(store.currentArtistData);
-
-    setIsLoading(false);
-  };
+  const musicStore = useMusicStore();
 
   useEffect(() => {
-    getStoreArtistData();
+    if (currentEndpoint) musicStore.getArtistData(currentEndpoint);
+    else navigate('/');
   }, []);
 
   const {
@@ -40,11 +32,11 @@ const ArtistPage: React.FC = () => {
     instagram_name,
     followers_count,
     description,
-  } = artistData;
+  } = musicStore.currentArtistData;
 
   return (
     <>
-      {!isLoading && (
+      {!musicStore.isLoading && (
         <div className={s.container}>
           <ReturnButton />
 
@@ -89,9 +81,9 @@ const ArtistPage: React.FC = () => {
         </div>
       )}
 
-      {isLoading && <p>Loading...</p>}
+      {musicStore.isLoading && <p>Loading...</p>}
     </>
   );
 };
 
-export default ArtistPage;
+export default observer(ArtistPage);

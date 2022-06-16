@@ -1,8 +1,8 @@
-import { memo, useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
-import { SongsContext } from '@app/App';
-import Store from '@store/Store';
+import { musicContext } from '@app/App';
 import { ArtistType } from '@type/types';
+import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
 import s from './ArtistCard.module.scss';
@@ -10,18 +10,15 @@ import s from './ArtistCard.module.scss';
 const ArtistCard: React.FC<{ artistInfo: ArtistType }> = ({ artistInfo }) => {
   const navigate = useNavigate();
 
-  const context = useContext(SongsContext);
-
-  const store = new Store();
+  const context = useContext(musicContext);
 
   const { id, name } = artistInfo;
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     navigate(`/artist/${id}`);
 
     context.currentEndpoint = id;
-    store.setCurrentId(id);
-  };
+  }, [id]);
 
   return (
     <>
@@ -48,4 +45,4 @@ const ArtistCard: React.FC<{ artistInfo: ArtistType }> = ({ artistInfo }) => {
   );
 };
 
-export default memo(ArtistCard);
+export default observer(ArtistCard);

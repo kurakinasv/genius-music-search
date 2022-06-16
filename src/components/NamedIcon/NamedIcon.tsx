@@ -1,12 +1,11 @@
-import React, { FC, memo, ReactNode } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
 import s from './NamedIcon.module.scss';
 
-type NamedIconProps = {
-  children: ReactNode;
+type NamedIconProps = PropsWithChildren<{
   name: string;
   title: string;
-};
+}>;
 
 const NamedIcon: FC<NamedIconProps> = ({ children, name, title }) => {
   return (
@@ -19,4 +18,4 @@ const NamedIcon: FC<NamedIconProps> = ({ children, name, title }) => {
   );
 };
 
-export default memo(NamedIcon);
+export default NamedIcon;
