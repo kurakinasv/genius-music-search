@@ -72,7 +72,7 @@ const ArtistPage: React.FC = () => {
                     <NamedIcon
                       children={<FollowersIcon />}
                       name={String(followers_count)}
-                      title="Followers on Genius"
+                      title="Подписчиков на Genius"
                     />
                   )}
                 </div>
