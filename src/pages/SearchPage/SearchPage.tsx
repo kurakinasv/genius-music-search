@@ -54,11 +54,11 @@ const SearchPage: React.FC = () => {
           value={value}
           onChange={inputHandler}
           onKeyUp={onEnterPress}
-          placeholder="Enter song or artist..."
+          placeholder="Ввести песню или исполнителя..."
           disabled={musicStore.isLoading}
         />
         <button onClick={clickHandler} disabled={musicStore.isLoading}>
-          Search
+          Найти
         </button>
       </div>
 

@@ -93,7 +93,7 @@ const SongPage: React.FC = () => {
                     <NamedIcon
                       children={<ReleaseDateIcon />}
                       name={date}
-                      title="Release Date"
+                      title="Дата выхода"
                     />
                   )}
 
@@ -101,7 +101,7 @@ const SongPage: React.FC = () => {
                     <NamedIcon
                       children={<AlbumIcon />}
                       name={album.name}
-                      title="Album Name"
+                      title="Название альбома"
                     />
                   )}
 
@@ -109,7 +109,7 @@ const SongPage: React.FC = () => {
                     <NamedIcon
                       children={<ViewsIcon />}
                       name={String(stats.pageviews)}
-                      title="Pageviews on Genius"
+                      title="Просмотров на Genius"
                     />
                   )}
 
@@ -117,7 +117,7 @@ const SongPage: React.FC = () => {
                     <NamedIcon
                       children={<AnnotationsIcon />}
                       name={String(annotationCount)}
-                      title="Annotations on Genius"
+                      title="Аннотаций на Genius"
                     />
                   )}
                 </div>
