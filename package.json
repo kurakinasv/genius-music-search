@@ -34,11 +34,10 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "node index.js",
     "client": "react-app-rewired start",
-    "client:install": "npm install",
     "server": "nodemon index.js",
-    "dev": "cross-env NODE_ENV=development concurrently \"npm run client\" \"npm run server\"",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
