@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import MusicStore from './Store';
+import MusicStore from './store';
 
 const useMusicStore = () => {
   const store = useRef<null | MusicStore>(null);
