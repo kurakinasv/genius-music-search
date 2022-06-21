@@ -1,7 +1,7 @@
 export enum RequestTypes {
   SEARCH = 'search?q=',
-  SONG = 'songs/',
-  ARTIST = 'artists/',
+  SONG = 'song?q=',
+  ARTIST = 'artist?q=',
 }
 
 export type MainInfoType = {

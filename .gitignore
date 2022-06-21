@@ -1,6 +1,5 @@
 # dependencies
 /node_modules
-yarn.lock
 
 # testing
 /coverage
@@ -8,8 +7,6 @@ yarn.lock
 # production
 /build
 
+# development
+.env
 /src/icons/svg
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

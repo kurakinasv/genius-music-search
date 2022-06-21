@@ -1,4 +1,4 @@
-import { options, BASE_URL, plain } from '@config/apiConfig';
+import { BASE_URL } from '@config/apiConfig';
 import { defaultArtistData, defaultSongData } from '@config/defaultValues';
 import {
   ArtistPageType,
@@ -17,9 +17,7 @@ import {
 type PrivateFields = '_isLoading';
 
 class MusicStore {
-  private readonly options = options;
   private readonly BASE_URL = BASE_URL;
-  private readonly plain = plain;
 
   searchState: MainInfoType[] = [];
 
@@ -55,12 +53,12 @@ class MusicStore {
     try {
       const url = this.BASE_URL + RequestTypes.SEARCH + query;
 
-      const response = await fetch(url, this.options);
+      const response = await fetch(url);
 
       const data = await response.json();
 
       runInAction(() => {
-        const result = data.response.hits.map((item: Record<string, any>) => {
+        const result = data.map((item: Record<string, any>) => {
           const {
             id,
             title,
@@ -97,9 +95,9 @@ class MusicStore {
     this._isLoading = true;
 
     try {
-      const url = this.BASE_URL + RequestTypes.SONG + currentId + this.plain;
+      const url = this.BASE_URL + RequestTypes.SONG + currentId;
 
-      const response = await fetch(url, this.options);
+      const response = await fetch(url);
 
       const data = await response.json();
 
@@ -117,7 +115,7 @@ class MusicStore {
           apple_music_id,
           apple_music_player_url,
           media,
-        } = data.response.song;
+        } = data;
 
         this.currentSongData = {
           id,
@@ -147,9 +145,9 @@ class MusicStore {
     this._isLoading = true;
 
     try {
-      const url = this.BASE_URL + RequestTypes.ARTIST + currentId + this.plain;
+      const url = this.BASE_URL + RequestTypes.ARTIST + currentId;
 
-      const response = await fetch(url, this.options);
+      const response = await fetch(url);
 
       const data = await response.json();
 
@@ -162,7 +160,7 @@ class MusicStore {
           instagram_name,
           followers_count,
           description,
-        } = data.response.artist;
+        } = data;
 
         this.currentArtistData = {
           id,
