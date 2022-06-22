@@ -1,23 +1,16 @@
-const path = require('path');
-
 const cors = require('cors');
 const express = require('express');
 const fetch = require('node-fetch');
 
 const { BASE_URL, OPTIONS, TEXT_FORMAT, REQUEST_TYPES } = require('./config');
-const PORT = process.env.PORT | 5000;
-require('dotenv').config();
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
 app.use(cors());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use('/', express.static(path.join(__dirname, 'build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-  });
+  app.use(express.static('build'));
 }
 
 app.get('/search', async (req, res) => {

@@ -1,50 +1,38 @@
 {
-  "name": "music_search",
+  "name": "genius-music-search",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kurakinasv.github.io/genius-music-search/",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
     "@types/css-modules": "^1.0.2",
-    "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.1",
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.25",
-    "concurrently": "^7.2.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "gh-pages": "^4.0.0",
     "html-react-parser": "^1.4.11",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "node-fetch": "2.6.6",
     "node-sass": "6.0.1",
-    "nodemon": "^2.0.16",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
-    "save-dev": "^0.0.1-security",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "client": "react-app-rewired start",
-    "server": "nodemon index.js",
-    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "start": "concurrently \"yarn run server\" \"yarn run client\"",
+    "server": "node server.js",
+    "server:dev": "nodemon server.js",
+    "client": "node start-client.js",
+    "start:client": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -67,11 +55,12 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
-    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
     "react-app-rewire-alias": "^1.1.7",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.16"
   }
 }
