@@ -2,9 +2,15 @@ const cors = require('cors');
 const express = require('express');
 const fetch = require('node-fetch');
 
-const { BASE_URL, OPTIONS, TEXT_FORMAT, REQUEST_TYPES } = require('./config');
-const PORT = process.env.PORT | 5000;
+const {
+  API_BASE_URL,
+  OPTIONS,
+  TEXT_FORMAT,
+  REQUEST_TYPES,
+} = require('./config');
 require('dotenv').config();
+
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
@@ -12,7 +18,7 @@ app.use(cors());
 
 app.get('/search', async (req, res) => {
   try {
-    const url = BASE_URL + REQUEST_TYPES.SEARCH + req.query.q;
+    const url = API_BASE_URL + REQUEST_TYPES.SEARCH + req.query.q;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
 
@@ -26,7 +32,7 @@ app.get('/search', async (req, res) => {
 
 app.get('/song', async (req, res) => {
   try {
-    const url = BASE_URL + REQUEST_TYPES.SONGS + req.query.q + TEXT_FORMAT;
+    const url = API_BASE_URL + REQUEST_TYPES.SONGS + req.query.q + TEXT_FORMAT;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
 
@@ -38,7 +44,8 @@ app.get('/song', async (req, res) => {
 
 app.get('/artist', async (req, res) => {
   try {
-    const url = BASE_URL + REQUEST_TYPES.ARTISTS + req.query.q + TEXT_FORMAT;
+    const url =
+      API_BASE_URL + REQUEST_TYPES.ARTISTS + req.query.q + TEXT_FORMAT;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
 

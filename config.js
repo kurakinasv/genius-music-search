@@ -1,12 +1,12 @@
 require('dotenv').config();
 
 const config = {
-  BASE_URL: 'https://api.genius.com/',
+  API_BASE_URL: 'https://api.genius.com/',
 
   OPTIONS: {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
     },
   },
 

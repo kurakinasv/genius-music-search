@@ -2,7 +2,6 @@ import { useContext } from 'react';
 
 import { musicContext } from '@app/App';
 import { ArtistType } from '@type/types';
-import { observer } from 'mobx-react-lite';
 import { Link, useNavigate } from 'react-router-dom';
 
 import s from './SongCard.module.scss';
@@ -50,4 +49,4 @@ const SongCard: React.FC<SongCardType> = ({ id, title, artistInfo }) => {
   );
 };
 
-export default observer(SongCard);
+export default SongCard;
