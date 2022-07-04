@@ -1,4 +1,4 @@
-import { BASE_URL } from '@config/apiConfig';
+import { BASE_URL } from '@config/baseUrl';
 import { defaultArtistData, defaultSongData } from '@config/defaultValues';
 import {
   ArtistPageType,
@@ -18,6 +18,7 @@ type PrivateFields = '_isLoading';
 
 class MusicStore {
   private readonly BASE_URL = BASE_URL;
+  private readonly PER_PAGE = 9;
 
   searchState: MainInfoType[] = [];
 
@@ -47,11 +48,16 @@ class MusicStore {
     this.searchState = data;
   }
 
-  getSearchData = async (query: string) => {
+  getSearchData = async (query: string, page: number) => {
     this._isLoading = true;
 
     try {
-      const url = this.BASE_URL + RequestTypes.SEARCH + query;
+      const url =
+        this.BASE_URL +
+        RequestTypes.SEARCH +
+        query +
+        `&per_page=${this.PER_PAGE}` +
+        `&page=${page}`;
 
       const response = await fetch(url);
 
