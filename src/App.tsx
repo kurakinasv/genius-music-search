@@ -10,12 +10,14 @@ type MusicContext = {
   searchState: MainInfoType[];
   currentEndpoint: number | null;
   currentQuery: string;
+  currentPage: number;
 };
 
 export const musicContext = createContext<MusicContext>({
   searchState: [],
   currentEndpoint: null,
   currentQuery: '',
+  currentPage: 1,
 });
 
 const MusicContextProvider = musicContext.Provider;
@@ -25,6 +27,7 @@ const App: FC = () => {
     searchState: [],
     currentEndpoint: null,
     currentQuery: '',
+    currentPage: 1,
   };
 
   return (

@@ -1,0 +1,30 @@
+@import '@styles/mixins.module.scss';
+@import '@styles/colors.module.scss';
+
+.scrollBtn {
+    @include square(70px);
+
+    position: fixed;
+    left: 93vw;
+    top: 90vh;
+
+    @include flex(center, center);
+
+    background-color: lapisBlueOpacity(0.5);
+    border-radius: 50%;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $lapisBlue;
+    }
+
+    svg {
+        @include square(50px);
+    }
+
+    @include transition();
+
+    &__hidden {
+        display: none;
+    }
+}

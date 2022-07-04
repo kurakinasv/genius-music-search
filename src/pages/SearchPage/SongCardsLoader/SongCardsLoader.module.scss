@@ -1,0 +1,26 @@
+@import '@styles/mixins.module.scss';
+
+.cards {
+    margin-top: 4vh;
+
+    @include flex(space-between);
+    flex-wrap: wrap;
+    column-gap: 2vh;
+    row-gap: 4vh;
+
+    &_item {
+        min-width: 330px;
+        max-width: 25vw;
+        min-height: 230px;
+
+        display: flex;
+        flex-direction: column;
+        flex-basis: 33.333%;
+
+        border-radius: 8px;
+    }
+}
+
+.cards_item {
+    @include skeleton-animation;
+}

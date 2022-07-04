@@ -18,7 +18,13 @@ app.use(cors());
 
 app.get('/search', async (req, res) => {
   try {
-    const url = API_BASE_URL + REQUEST_TYPES.SEARCH + req.query.q;
+    const url =
+      API_BASE_URL +
+      REQUEST_TYPES.SEARCH +
+      req.query.q +
+      `&per_page=${req.query.per_page}` +
+     `&page=${req.query.page}`;
+
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
 
