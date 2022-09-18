@@ -10,62 +10,68 @@ body {
     margin: 5vh auto;
 }
 
-.search input {
-    width: 25vw;
-    min-width: 300px;
-    height: 66px;
+.search {
+    padding-left: 20px;
 
-    margin-right: 20px;
-    padding: 16px;
+    input {
+        width: 25vw;
+        min-width: 300px;
+        height: 66px;
 
-    @include font(22px, 500, $darkBlue, $arial);
+        margin-right: 20px;
+        padding: 16px;
 
-    background-color: $lightBlue;
-    border: 1px solid $lapisBlue;
-    border-radius: 8px;
+        @include font(22px, 500, $darkBlue, $arial);
 
-    &:focus {
-        background-color: $white;
+        background-color: transparent;
         border: 1px solid $lapisBlue;
-        outline: 1px solid $lapisBlue;
+        border-radius: 8px;
+
+        &:focus {
+            background-color: $white;
+            border: 1px solid $lapisBlue;
+            outline: 1px solid $lapisBlue;
+        }
+
+        &:disabled {
+            background-color: lapisBlueOpacity(0.2);
+        }
+
+        &::placeholder {
+            color: $lapisBlue;
+            opacity: 0.7;
+        }
     }
 
-    &:disabled {
-        background-color: lapisBlueOpacity(0.2);
-    }
+    button {
+        padding: 20px 35px;
 
-    &::placeholder {
-        color: $lapisBlue;
-        opacity: 0.7;
-    }
-}
+        @include font(22px, 700, $lightBlue, $arial);
 
-.search button {
-    padding: 20px 35px;
+        background-color: $lapisBlue;
+        border: none;
+        border-radius: 6px;
 
-    @include font(22px, 700, $lightBlue, $arial);
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
 
-    background-color: $lapisBlue;
-    border: none;
-    border-radius: 6px;
-
-    &:hover {
-        opacity: 0.8;
-        cursor: pointer;
-    }
-
-    &:disabled {
-        opacity: 0.5;
-        cursor: default;
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
     }
 }
 
 .query {
+    padding: 0 20px;
     @include font(40px, 700, $darkGrey, $arial);
 }
 
 .cards {
     margin-top: 4vh;
+    padding: 20px;
 
     @include flex(space-between);
     flex-wrap: wrap;

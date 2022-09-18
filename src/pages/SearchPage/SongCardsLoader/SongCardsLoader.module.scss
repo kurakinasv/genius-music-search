@@ -1,7 +1,7 @@
 @import '@styles/mixins.module.scss';
 
 .cards {
-    margin-top: 4vh;
+    padding: 20px;
 
     @include flex(space-between);
     flex-wrap: wrap;

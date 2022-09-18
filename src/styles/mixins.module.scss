@@ -27,6 +27,16 @@
 @mixin scrollbar {
     &::-webkit-scrollbar {
         width: 0.5em;
+
+        &:hover {
+            width: 1em;
+        }
+    }
+
+    *:hover {
+        &::-webkit-scrollbar {
+            width: 0.5em;
+        }
     }
 
     &::-webkit-scrollbar-track {
