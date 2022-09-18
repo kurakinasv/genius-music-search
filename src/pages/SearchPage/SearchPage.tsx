@@ -3,6 +3,7 @@ import {
   KeyboardEvent,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from 'react';
 
@@ -21,6 +22,7 @@ import SongCardsLoader from './SongCardsLoader';
 const SearchPage: React.FC = () => {
   const context = useContext(musicContext);
   const { searchState } = context;
+  const [hasMore, setHasMore] = useState(true);
 
   const musicStore = useMusicStore();
 
@@ -38,10 +40,14 @@ const SearchPage: React.FC = () => {
     setValue('');
   };
 
-  const getScrollResults = async () => {
+  const getScrollResults = async (): Promise<void> => {
     context.currentPage += 1;
+
     await musicStore.getSearchData(context.currentQuery, context.currentPage);
-    context.searchState = context.searchState.concat(musicStore.searchState);
+
+    if (musicStore.searchState.length) {
+      context.searchState = context.searchState.concat(musicStore.searchState);
+    } else setHasMore(false);
   };
 
   const inputHandler = useCallback((event: FormEvent<HTMLInputElement>) => {
@@ -52,9 +58,10 @@ const SearchPage: React.FC = () => {
     if (event.key === 'Enter') clickHandler();
   };
 
-  const songsArray = searchState.map((props) => (
-    <SongCard key={props.id} {...props} />
-  ));
+  const songsArray = useMemo(
+    () => searchState.map((props) => <SongCard key={props.id} {...props} />),
+    [searchState]
+  );
 
   return (
     <>
@@ -65,7 +72,7 @@ const SearchPage: React.FC = () => {
             value={value}
             onChange={inputHandler}
             onKeyUp={onEnterPress}
-            placeholder="Ввести песню или исполнителя..."
+            placeholder="Поиск песни или исполнителя..."
             disabled={musicStore.isLoading}
           />
           <button onClick={clickHandler} disabled={musicStore.isLoading}>
@@ -87,7 +94,7 @@ const SearchPage: React.FC = () => {
         <InfiniteScroll
           dataLength={searchState.length}
           next={getScrollResults}
-          hasMore={true}
+          hasMore={hasMore}
           loader={<SongCardsLoader />}
           scrollThreshold="100%"
           style={{ overflowX: 'hidden' }}

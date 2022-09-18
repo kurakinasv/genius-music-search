@@ -28,24 +28,22 @@ const SongCard: React.FC<SongCardType> = ({ id, title, artistInfo }) => {
   };
 
   return (
-    <>
-      <div className={s.item}>
-        <div className={s.content}>
-          <div className={s.title}>{title}</div>
-          <Link
-            to={`/artist/${artistInfo.id}`}
-            className={s.artist}
-            onClick={artistClickHandler}
-          >
-            {artistInfo.name}
-          </Link>
-        </div>
-
-        <div className={s.link} onClick={songClickHandler}>
-          <span>Перейти к описанию</span>
-        </div>
+    <div className={s.item}>
+      <div className={s.content}>
+        <div className={s.title}>{title}</div>
+        <Link
+          to={`/artist/${artistInfo.id}`}
+          className={s.artist}
+          onClick={artistClickHandler}
+        >
+          {artistInfo.name}
+        </Link>
       </div>
-    </>
+
+      <div className={s.link} onClick={songClickHandler}>
+        <span>Перейти к описанию</span>
+      </div>
+    </div>
   );
 };
 
