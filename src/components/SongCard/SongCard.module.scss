@@ -37,6 +37,7 @@
 .title {
     margin-bottom: 10px;
     @include font(40px, 500, $darkGrey, $franklinMedium);
+    word-wrap: break-word;
 }
 
 .artist {

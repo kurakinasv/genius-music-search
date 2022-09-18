@@ -53,6 +53,7 @@
     padding-right: 1.5em;
 
     overflow: auto;
+    word-wrap: break-word;
 
     @include scrollbar;
 }
