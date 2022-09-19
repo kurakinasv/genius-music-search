@@ -1,32 +1,6 @@
 @import '@styles/colors.module.scss';
 @import '@styles/mixins.module.scss';
 
-body {
-    @include scrollbar;
-}
-
-.header {
-    width: 100%;
-    height: 100px;
-    padding: 0 40px;
-
-    position: sticky;
-    top: 0;
-    z-index: 1;
-
-    @include flex(space-between, center);
-
-    background-color: blueOpacity(0.7);
-    backdrop-filter: blur(8px);
-    opacity: 0;
-    @include transition(0.4s);
-}
-
-.container {
-    max-width: 80vw;
-    margin: 5vh auto;
-}
-
 .search {
     padding-left: 20px;
 
@@ -41,13 +15,13 @@ body {
         @include font(22px, 500, $darkBlue, $arial);
 
         background-color: $lightBlue;
-        border: 1px solid $lapisBlue;
+        border: 2px solid $lapisBlue;
         border-radius: 8px;
 
         &:focus {
             background-color: $white;
-            border: 1px solid $lapisBlue;
-            outline: 1px solid $lapisBlue;
+            border: 2px solid $lapisBlue;
+            outline: 2px solid $lapisBlue;
         }
 
         &:disabled {
@@ -79,19 +53,4 @@ body {
             cursor: default;
         }
     }
-}
-
-.query {
-    padding: 0 20px;
-    @include font(40px, 700, $darkGrey, $arial);
-}
-
-.cards {
-    margin-top: 4vh;
-    padding: 20px;
-
-    @include flex(space-between);
-    flex-wrap: wrap;
-    column-gap: 1vw;
-    row-gap: 4vh;
 }

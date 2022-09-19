@@ -10,3 +10,7 @@ $black: #000;
 @function lapisBlueOpacity($opacity) {
     @return rgba(149, 173, 207, $opacity);
 }
+
+@function blueOpacity($opacity) {
+    @return rgba(229, 239, 255, $opacity);
+}

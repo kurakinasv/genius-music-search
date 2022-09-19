@@ -1,11 +1,4 @@
-import {
-  FormEvent,
-  KeyboardEvent,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { musicContext } from '@app/App';
 import ArtistCard from '@components/ArtistCard';
@@ -15,6 +8,7 @@ import useMusicStore from '@store/useMusicStore';
 import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import InputComponent from './InputComponent';
 import s from './SearchPage.module.scss';
 import SearchPageLoader from './SearchPageLoader';
 import SongCardsLoader from './SongCardsLoader';
@@ -23,21 +17,19 @@ const SearchPage: React.FC = () => {
   const context = useContext(musicContext);
   const { searchState } = context;
   const [hasMore, setHasMore] = useState(true);
+  const [showHeader, setShowHeader] = useState(false);
 
   const musicStore = useMusicStore();
 
-  const [value, setValue] = useState('');
-
-  const clickHandler = async () => {
+  const clickHandler = async (value: string) => {
     if (!value) return;
 
     context.currentPage = 1;
     await musicStore.getSearchData(value, 1);
+    document.documentElement.scrollTo(0, 0);
 
     context.searchState = musicStore.searchState;
     context.currentQuery = value;
-
-    setValue('');
   };
 
   const getScrollResults = async (): Promise<void> => {
@@ -50,35 +42,45 @@ const SearchPage: React.FC = () => {
     } else setHasMore(false);
   };
 
-  const inputHandler = useCallback((event: FormEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value);
-  }, []);
-
-  const onEnterPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') clickHandler();
-  };
-
   const songsArray = useMemo(
     () => searchState.map((props) => <SongCard key={props.id} {...props} />),
     [searchState]
   );
 
+  const addHeader = () => {
+    const header = document.getElementsByTagName('header')[0];
+
+    if (window.scrollY > 250) {
+      setShowHeader(true);
+      if (header) header.style.opacity = '1';
+    } else {
+      if (header) header.style.opacity = '0';
+      setShowHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', addHeader);
+    return () => window.removeEventListener('scroll', addHeader);
+  }, []);
+
   return (
     <>
-      <div className={s.container}>
-        <div className={s.search}>
-          <input
-            type="text"
-            value={value}
-            onChange={inputHandler}
-            onKeyUp={onEnterPress}
-            placeholder="Поиск песни или исполнителя..."
+      {showHeader && (
+        <header className={s.header}>
+          <h1 className={s.query}>"{context.currentQuery}"</h1>
+          <InputComponent
+            clickHandler={clickHandler}
             disabled={musicStore.isLoading}
           />
-          <button onClick={clickHandler} disabled={musicStore.isLoading}>
-            Найти
-          </button>
-        </div>
+        </header>
+      )}
+
+      <div className={s.container}>
+        <InputComponent
+          clickHandler={clickHandler}
+          disabled={musicStore.isLoading}
+        />
 
         {musicStore.isLoading && context.currentPage === 1 && (
           <SearchPageLoader />
