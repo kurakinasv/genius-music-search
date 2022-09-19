@@ -19,7 +19,7 @@ const InputComponent: FC<InputComponentProps> = ({
   };
 
   const onEnterPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') clickHandler(value);
+    if (event.key === 'Enter') onClick();
   };
 
   const inputHandler = useCallback((event: FormEvent<HTMLInputElement>) => {
