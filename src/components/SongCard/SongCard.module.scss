@@ -15,13 +15,18 @@
 
     text-align: center;
 
-    background-color: $lapisBlue;
-    border-radius: 8px;
+    border: 8px solid lapisBlueOpacity(0.7);
+    border-radius: 16px;
     @include transition();
 
     &:hover {
-        background-color: lapisBlueOpacity(0.7);
+        border: 8px solid $lapisBlue;
         @include transition();
+        transform: scale(1.05);
+
+        .link {
+            @include card-link-hover;
+        }
     }
 }
 
@@ -32,6 +37,7 @@
 .title {
     margin-bottom: 10px;
     @include font(40px, 500, $darkGrey, $franklinMedium);
+    word-wrap: break-word;
 }
 
 .artist {

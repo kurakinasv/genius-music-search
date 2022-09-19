@@ -1,11 +1,11 @@
 @import '@styles/mixins.module.scss';
 
 .cards {
-    margin-top: 4vh;
+    padding: 20px;
 
     @include flex(space-between);
     flex-wrap: wrap;
-    column-gap: 2vh;
+    column-gap: 1vw;
     row-gap: 4vh;
 
     &_item {
@@ -17,7 +17,7 @@
         flex-direction: column;
         flex-basis: 33.333%;
 
-        border-radius: 8px;
+        border-radius: 16px;
     }
 }
 

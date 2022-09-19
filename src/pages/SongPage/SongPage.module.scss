@@ -53,6 +53,7 @@
     padding-right: 1.5em;
 
     overflow: auto;
+    word-wrap: break-word;
 
     @include scrollbar;
 }
@@ -98,6 +99,7 @@
 
     @include transition(opacity 0.5s);
     cursor: pointer;
+    user-select: none;
 
     &:hover {
         opacity: 0.8;

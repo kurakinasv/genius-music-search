@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { musicContext } from '@app/App';
 import NamedIcon from '@components/NamedIcon';
@@ -47,7 +47,7 @@ const SongPage: React.FC = () => {
     setIsActive((v) => !v);
   };
 
-  const renderMediaLinks = () => {
+  const renderMediaLinks = useMemo(() => {
     return (
       <ul>
         {media?.map((item) => (
@@ -59,7 +59,7 @@ const SongPage: React.FC = () => {
         ))}
       </ul>
     );
-  };
+  }, [media]);
 
   return (
     <>
@@ -142,7 +142,7 @@ const SongPage: React.FC = () => {
                     />
                     {!!media?.length && (
                       <div className={s.media}>
-                        Слушать полностью {media && renderMediaLinks()}
+                        Слушать полностью {media && renderMediaLinks}
                       </div>
                     )}
                   </>
@@ -150,7 +150,7 @@ const SongPage: React.FC = () => {
 
                 {!apple_music_id && !!media?.length && (
                   <div className={s.media}>
-                    Послушать на {media && renderMediaLinks()}
+                    Послушать на {media && renderMediaLinks}
                   </div>
                 )}
 
