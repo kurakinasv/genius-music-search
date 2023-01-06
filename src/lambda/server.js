@@ -7,7 +7,7 @@ const {
   OPTIONS,
   TEXT_FORMAT,
   REQUEST_TYPES,
-} = require('./config');
+} = require('../../config');
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('build'));
 }
 
-app.get('/api/search', async (req, res) => {
+app.get('/.netlify/functions/api/search', async (req, res) => {
   try {
     const url =
       API_BASE_URL +
@@ -38,7 +38,7 @@ app.get('/api/search', async (req, res) => {
   }
 });
 
-app.get('/api/song', async (req, res) => {
+app.get('/.netlify/functions/api/song', async (req, res) => {
   try {
     const url = API_BASE_URL + REQUEST_TYPES.SONGS + req.query.q + TEXT_FORMAT;
     const response = await fetch(url, OPTIONS);
@@ -50,7 +50,7 @@ app.get('/api/song', async (req, res) => {
   }
 });
 
-app.get('/api/artist', async (req, res) => {
+app.get('/.netlify/functions/api/artist', async (req, res) => {
   try {
     const url =
       API_BASE_URL + REQUEST_TYPES.ARTISTS + req.query.q + TEXT_FORMAT;
