@@ -9,6 +9,7 @@
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.3.3",
     "cors": "^2.8.5",
+    "encoding": "^0.1.13",
     "express": "^4.18.1",
     "html-react-parser": "^1.4.11",
     "mobx": "^6.6.0",
