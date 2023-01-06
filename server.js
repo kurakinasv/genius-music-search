@@ -18,14 +18,14 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('build'));
 }
 
-app.get('/search', async (req, res) => {
+app.get('/api/search', async (req, res) => {
   try {
     const url =
       API_BASE_URL +
       REQUEST_TYPES.SEARCH +
       req.query.q +
       `&per_page=${req.query.per_page}` +
-     `&page=${req.query.page}`;
+      `&page=${req.query.page}`;
 
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
@@ -38,7 +38,7 @@ app.get('/search', async (req, res) => {
   }
 });
 
-app.get('/song', async (req, res) => {
+app.get('/api/song', async (req, res) => {
   try {
     const url = API_BASE_URL + REQUEST_TYPES.SONGS + req.query.q + TEXT_FORMAT;
     const response = await fetch(url, OPTIONS);
@@ -50,7 +50,7 @@ app.get('/song', async (req, res) => {
   }
 });
 
-app.get('/artist', async (req, res) => {
+app.get('/api/artist', async (req, res) => {
   try {
     const url =
       API_BASE_URL + REQUEST_TYPES.ARTISTS + req.query.q + TEXT_FORMAT;
