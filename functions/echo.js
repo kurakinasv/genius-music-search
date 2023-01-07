@@ -1,3 +1,6 @@
+const { formatMessageResponse } = require('./utils');
+
 exports.handler = async (event) => {
-    return { statusCode: 200, body: JSON.stringify({ message: `echo route ${event.queryStringParameters.q}` }) }
-}
+  const query = event.queryStringParameters.q || '';
+  return formatMessageResponse(200, `echo route ${query}`);
+};
