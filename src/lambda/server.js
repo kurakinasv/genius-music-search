@@ -9,7 +9,7 @@ const {
   TEXT_FORMAT,
   REQUEST_TYPES,
 } = require('../../config');
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
 const app = express();
 const router = express.Router();
@@ -72,9 +72,9 @@ router.get('/artist', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 app.use(`/.netlify/functions/api`, router);
 
