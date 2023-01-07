@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const fetch = require('node-fetch');
+const serverless = require('serverless-http');
 
 const {
   API_BASE_URL,
@@ -11,14 +12,20 @@ const {
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+const router = express.Router();
 
+app.use(express.json());
 app.use(cors());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('build'));
 }
 
-app.get('/.netlify/functions/api/search', async (req, res) => {
+router.get('/', (req, res) => {
+  res.send('echo route');
+});
+
+router.get('/search', async (req, res) => {
   try {
     const url =
       API_BASE_URL +
@@ -38,7 +45,7 @@ app.get('/.netlify/functions/api/search', async (req, res) => {
   }
 });
 
-app.get('/.netlify/functions/api/song', async (req, res) => {
+router.get('/song', async (req, res) => {
   try {
     const url = API_BASE_URL + REQUEST_TYPES.SONGS + req.query.q + TEXT_FORMAT;
     const response = await fetch(url, OPTIONS);
@@ -50,7 +57,7 @@ app.get('/.netlify/functions/api/song', async (req, res) => {
   }
 });
 
-app.get('/.netlify/functions/api/artist', async (req, res) => {
+router.get('/artist', async (req, res) => {
   try {
     const url =
       API_BASE_URL + REQUEST_TYPES.ARTISTS + req.query.q + TEXT_FORMAT;
@@ -68,3 +75,8 @@ app.get('/.netlify/functions/api/artist', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+app.use(`/.netlify/functions/api`, router);
+
+module.exports = app;
+module.exports.handler = serverless(app);

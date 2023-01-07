@@ -3,7 +3,8 @@
     functions = "functions"
     publish = "build"
 
-[[redirects]]
-    from = "/*"
-    to = "/index.html"
-    status = 200
+# to access from [domain]/api/[filename]
+#[[redirects]]
+#    from = "api/*"
+#    to = ".netlify/functions/:splat"
+#    status = 200
