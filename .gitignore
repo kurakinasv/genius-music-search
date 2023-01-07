@@ -9,3 +9,6 @@
 
 # development
 .env
+
+# Local Netlify folder
+.netlify

@@ -1,1 +1,1 @@
-export const BASE_URL = '/.netlify/functions/api/';
+export const BASE_URL = '/api/';
